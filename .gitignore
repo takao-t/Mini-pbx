@@ -1,4 +1,32 @@
-# ==================== VS Code ====================
+# === Build artifacts (最重要) ===
+_build/
+cmake/
+**/.ninja_deps
+**/.ninja_log
+**/CMakeCache.txt
+**/CMakeFiles/
+**/CMakeScripts/
+**/Makefile
+**/cmake_install.cmake
+**/*.p1
+**/*.o
+**/*.d
+**/*.lst
+**/*.sym
+**/*.elf
+**/*.hex
+**/*.map
+**/*.bin
+
+# === MCC Generated (一時的なものは無視) ===
+mcc_generated_files/
+**/mcc_generated_files/
+**/.mcc/
+**/mcc-manifest-*.yml
+**/mcc-autosave*.yml
+**/*.bak
+
+# === VS Code ===
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -6,52 +34,11 @@
 !.vscode/extensions.json
 !.vscode/*.code-workspace
 
-# ==================== MPLAB / MCC ====================
-# Build artifacts
-**/build/
-**/dist/
-**/production/
-**/.generated_files/
-**/*.elf
-# **/*.hex
-**/*.map
-**/*.o
-**/*.d
-**/*.lst
-**/*.sym
-
-# MCC generated / temporary
-mcc/
-**/mcc_generated/
-**/*.mcc
-**/.mcc/
-
-# MPLAB X legacy 
-**/nbproject/
-!**/nbproject/*.xml
-**/private/
-**/Makefile-*
-**/Package-*
-
-# MCC Melody / Harmony specific
-**/*.yaml.bak
-**/*.mc3.bak
-**/__pycache__/
-**/.cache/
-
-# ==================== General ====================
-# OS
+# === General ===
 .DS_Store
 Thumbs.db
-
-# Logs
 *.log
 *.tmp
-
-**/lib/
-**/libs/
-
-# Backup files
 *~
-*.bak
 *.swp
+__pycache__/

@@ -1,4 +1,0 @@
-C:/Users/tsq/MPLABProjects/Mini-PBX/_build/Mini-PBX/default/CMakeFiles/Mini_PBX_default_default_XC8_compile.dir
-C:/Users/tsq/MPLABProjects/Mini-PBX/_build/Mini-PBX/default/CMakeFiles/Mini_PBX_default_image_rWRoBDWs.dir
-C:/Users/tsq/MPLABProjects/Mini-PBX/_build/Mini-PBX/default/CMakeFiles/edit_cache.dir
-C:/Users/tsq/MPLABProjects/Mini-PBX/_build/Mini-PBX/default/CMakeFiles/rebuild_cache.dir
