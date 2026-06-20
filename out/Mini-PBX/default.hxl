@@ -1,24 +1,24 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\tsq\AppData\Local\Temp\xcAs1xww.0\driver_tmp_3.o
+ C:\Users\tsq\AppData\Local\Temp\xcAs21c0.0\driver_tmp_3.o
  -OC:\Users\tsq\MPLABProjects\Mini-PBX\out\Mini-PBX\default.hex
  -logfile=C:\Users\tsq\MPLABProjects\Mini-PBX\out\Mini-PBX\default.hxl
  -addressing=2
 
 ### Memory Usage ###
  Input file ranges:
-  0h - 2FFFh		(C:\Users\tsq\AppData\Local\Temp\xcAs1xww.0\driver_tmp_3.o)
-  35BCh - 552Dh		(C:\Users\tsq\AppData\Local\Temp\xcAs1xww.0\driver_tmp_3.o)
-  1000Eh - 10015h		(C:\Users\tsq\AppData\Local\Temp\xcAs1xww.0\driver_tmp_3.o)
+  0h - 2FFFh		(C:\Users\tsq\AppData\Local\Temp\xcAs21c0.0\driver_tmp_3.o)
+  35BAh - 552Dh		(C:\Users\tsq\AppData\Local\Temp\xcAs21c0.0\driver_tmp_3.o)
+  1000Eh - 10015h		(C:\Users\tsq\AppData\Local\Temp\xcAs21c0.0\driver_tmp_3.o)
  Unused ranges:
-  3000h - 35BBh
+  3000h - 35B9h
   552Eh - 1000Dh
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\tsq\AppData\Local\Temp\xcAs1xww.0\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\tsq\AppData\Local\Temp\xcAs21c0.0\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
@@ -791,7 +791,7 @@
 00002FE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00002FF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 ----------------------------------------------------------
-000035B0 | -- -- -- -- -- -- -- -- -- -- -- -- H1 H1 H1 H1
+000035B0 | -- -- -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1
 000035C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000035D0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000035E0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
