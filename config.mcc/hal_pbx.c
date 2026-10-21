@@ -1,6 +1,5 @@
 // 2ラインPIC直結用HAL
 // SLICユニットを使用せず2回線専用の簡易PBX向け(16F18326)
-// main.cは変更不要。このHALのみでハードウェアの差異は吸収
 // HAL用にタイマ(1mS割り込み有:TMR4)が必要
 //
 // 各ピンは以下の命名基準
@@ -14,10 +13,8 @@
 //        L2_SHK -> CLC4 -> CLC2 -> CLC2_OutputStatus()
 
 #include "hal_pbx.h"
-#include "mcc_generated_files/system/pins.h"
 #include "mcc_generated_files/system/system.h"
-#include "mcc_generated_files/timer/tmr4.h"
-#include "mcc_generated_files/timer/tmr4_deprecated.h"
+#include "mcc_generated_files/system/pins.h"
 
 
 // 各回線のハードウェア状態を保持する構造体
@@ -38,8 +35,8 @@ static uint8_t modulation_cycle = 62;
 // ハードウェア直接制御関数群
 // ---------------------------------------------------------
 
-// 400HzトーンのON/OFF制御 (NCO出力をTRISAでオン/オフ)
-static void HardwareToneControl(uint8_t line, bool enable) {
+// トーンのON/OFF制御 (NCO出力をTRISAでオン/オフ)
+void HardwareToneControl(uint8_t line, bool enable) {
     if (line == 0) {
         if (enable) L1_TONE_SetDigitalOutput();
         else        L1_TONE_SetDigitalInput();
@@ -200,12 +197,25 @@ bool HAL_GetHook(uint8_t line) {
     }
 }
 
+// 廃止予定: Mini-PBX専用のPBXコアにしたため互換性を維持しても意味がないので
+// コアからはスイッチON/OFF APIに変更
+//
 //　他のアーキテクチャではスイッチボードにシリアル接続だが2回線専用では単にポートのON/OFF
 // main.cからの互換性維持のため"SoftwareUART_WriteByte"という関数名のままにする
-void HAL_SoftwareUART_WriteByte(uint8_t data) {
+// void HAL_SoftwareUART_WriteByte(uint8_t data) {
     // 互換性維持のためCが来たら接続Rが来たら開放
-    if(data == 'C') SW_CTRL_SetHigh();
-    else if(data == 'R') SW_CTRL_SetLow();
+//    if(data == 'C') SW_CTRL_SetHigh();
+//    else if(data == 'R') SW_CTRL_SetLow();
+// }
+
+// Switchオンオフ処理
+void HAL_Switch_Control(bool onoff){
+    if(onoff == true){
+        SW_CTRL_SetHigh();
+    }
+    else{
+        SW_CTRL_SetLow();
+    }
 }
 
 uint8_t HAL_GetMaxLines(void) {

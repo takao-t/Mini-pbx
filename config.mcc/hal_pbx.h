@@ -11,6 +11,20 @@ MCCでピン名を設定しhal_pbx.hとhal_pbx.cで設定すること
 #include <stdint.h>
 #include <stdbool.h>
 
+// 400HzのNCO値
+#define TONE_400HZ 0x1a
+// 800HzのNCO値
+#define TONE_800Hz 0x34
+// CID送出関連(FSKモデム)
+#define FSK_MARK  0x55  // 1300Hz用 NCOインクリメント値
+#define FSK_SPACE 0x8a  // 2100Hz用 NCOインクリメント値
+
+// コード定義
+#define DLE 0x10
+#define SOH 0x01
+#define STX 0x02
+#define ETX 0x03
+
 // ==========================================================
 // Flash (NVM) 保存領域の設定
 // ==========================================================
@@ -24,7 +38,7 @@ MCCでピン名を設定しhal_pbx.hとhal_pbx.cで設定すること
 #define HAL_STORAGE_START_ADDR (PROGMEM_SIZE - HAL_STORAGE_SIZE)
 #endif
 
-#define NVM_MAGIC_VAL  0x5A
+#define NVM_MAGIC_VAL  0x5C
 // トーンの種類定義
 typedef enum {
     TONE_OFF,      // TG1=H, TG2=H (トーン停止)
@@ -53,7 +67,13 @@ void HAL_SetRing(uint8_t line, bool enable);
 bool HAL_GetHook(uint8_t line);
 uint8_t HAL_GetMaxLines(void);
 
-// スイッチボード制御API (Bit-banging)
-void HAL_SoftwareUART_WriteByte(uint8_t data);
+// トーン制御
+void HardwareToneControl(uint8_t line, bool enable);
+void NCO1_SetIncrement(uint32_t inc_val);
+// スイッチ制御
+void HAL_Switch_Control(bool onoff);
+
+// CID送出
+bool Send_NTT_CallerID(uint8_t line, char *num_str);
 
 #endif // HAL_PBX_H

@@ -1,5 +1,4 @@
 #include "mcc_generated_files/nvm/nvm.h"
-#include "mcc_generated_files/system/pins.h"
 #include "mcc_generated_files/system/system.h"
 #include "hal_pbx.h"
 #include <stdbool.h>
@@ -9,16 +8,18 @@
 
 /*
     PBXメイン(core)プログラム
-     ハードウェア依存部分はhal_pbx.hとhal_pbx.cで定義する
-     SLICユニット、I2C拡張ユニット等の使用はHAL側で行うこと
+     ハードウェア依存部分はhal_pbx.hとhal_pbx.c,hal_cid.cで定義する
+     2ライン、SLIC直結専用にサイズダウン
 
     このプログラムに依存する部分としてMCCで以下を設定すること
+     Clock : HFINTOSC 32MHz (クロックを変えるとモデムやトーンが正しく動作しないので注意)
      EUSART : 9600bps割り込み有、printfリダイレクト有
      TMR2 : 1ms tickを生成し割り込み有
+     TMR4 : 1ms tickを生成し割り込み有(HALが専用に使う)
      NVM : Flash(NVM) APIあり 設定データ領域をFlashに変更した
      注意:XC8のOptimize OptionでAddress Qualifierを"Require"に設定すること
           Flashの領域定義はhal_pbx.hで行っている
-     WWDT : HFINTOSCで1:522499
+     WDT : HFINTOSCで1:522499
 */
 
 // XC8コンパイラのバージョン取得（整数値で返る 例: 2310 = v2.31）
@@ -30,31 +31,24 @@
 #endif
 
 // バージョン番号
-char* version_string = "1.3.1_NVM_Storage";
+char* version_string = "1.4.0_MINI-PBX";
 
-// 内線番号の最大桁数
-#define MAX_EXT_DIGITS 2
-#define MAX_IP_DIGITS 16
+// 内線番号の最大桁数は4桁
+// ただし特番処理等で4桁以上を扱うので+2している個所に注意
+#define MAX_EXT_DIGITS 4
+// ダイアルタイムアウト(発信への移行時間:ミリ秒)
+#define DIAL_TIMEOUT 3000
 
-// プレフィクス(0-9, 0xffは無効)
-uint8_t global_prefix = 0xFF;
-
-// 接続されている回線数
-uint8_t current_max_lines = 8;
-
-// ポート種別定義
-typedef enum {
-    PORT_TYPE_SLIC = 0,
-    PORT_TYPE_IP = 1
-} PortType;
+// 接続されている回線数(最大値をデフォルト:後で上書き)
+uint8_t current_max_lines = 4;
 
 // 各ポート毎の設定保持構造体 (Flash保存用・多桁ホットライン対応版)
 typedef struct {
-    uint8_t extension;     // 内線番号 (例: 11～)
+    uint16_t extension;     // 内線番号 (例: 11～)
     uint8_t initial_state; // 初期ステート (STATE_AUTOANSなど)
-    uint8_t port_type;     // 0=SLIC, 1=IPUnit
     uint8_t hotline_len;                  // ホットライン番号の桁数 (0の場合は無効)
-    uint8_t hotline_num[MAX_IP_DIGITS];   // 多桁ホットライン用配列
+    uint8_t hotline_num[MAX_EXT_DIGITS];   // ホットライン用配列
+    uint8_t caller_id_enabled;
     uint8_t reserved;      // 予約・パディング用
 } PortConfig;
 
@@ -73,9 +67,10 @@ typedef enum {
     STATE_BUSY,
     STATE_UNAVAIL,
     STATE_AUTOANS,
-    STATE_IP_SENDING_DIGITS,
-    STATE_IP_WAITING_ANS,
-    STATE_IP_ABORTING
+    STATE_SP_NUMBER,
+    STATE_SP_NUMBER_WAIT1,
+    STATE_SP_NUMBER_WAIT2,
+    STATE_SP_NUMBER_WAIT3
 } PBX_State;
 
 typedef struct {
@@ -86,7 +81,7 @@ typedef struct {
     // ダイヤル処理用
     uint8_t dp_count;       // 現在カウント中のパルス数
     uint8_t dialed_digits;  // 受信完了した桁数
-    uint8_t dialed_number[MAX_IP_DIGITS]; // 受信した番号を格納
+    uint8_t dialed_number[MAX_EXT_DIGITS+2]; // 受信した番号を格納
     
     // タイマー（1msTickで減算）
     volatile uint16_t dp_timer;    
@@ -95,12 +90,11 @@ typedef struct {
 
     // 通話相手の物理ポート番号 (0-3)、未接続時は 0xFF などを入れる
     uint8_t target_port;
+
+    // 特番処理用
+    volatile uint16_t special_number;
+    volatile uint8_t indication_tones;
     
-    // IPルーティング・送出用
-    bool is_external_call;
-    uint8_t send_dp_idx;
-    uint8_t send_dp_count;
-    uint8_t send_dp_phase;
 } LineContext;
 
 LineContext lines[TOTAL_MAX_LINES];
@@ -125,7 +119,7 @@ uint16_t read_configuration_space(uint16_t address) {
 
 // Flash(NVM)への設定保存
 void SaveSettings(void) {
-    uint16_t total_bytes = 2 + sizeof(port_configs); 
+    uint16_t total_bytes = 1 + sizeof(port_configs); 
     flash_address_t current_addr = HAL_STORAGE_START_ADDR;
     uint16_t bytes_written = 0;
     
@@ -139,12 +133,10 @@ void SaveSettings(void) {
             uint8_t data_byte = 0xFF; 
             
             if (bytes_written == 0) {
-                data_byte = global_prefix;
-            } else if (bytes_written == 1) {
                 data_byte = NVM_MAGIC_VAL;
-            } else if ((bytes_written - 2) < sizeof(port_configs)) {
+            } else if ((bytes_written - 1) < sizeof(port_configs)) {
                 uint8_t *ptr = (uint8_t *)port_configs;
-                data_byte = ptr[bytes_written - 2];
+                data_byte = ptr[bytes_written - 1];
             }
             
             row_buf[i] = data_byte; 
@@ -168,12 +160,10 @@ void SaveSettings(void) {
 void LoadSettings(void) {
     flash_address_t current_addr = HAL_STORAGE_START_ADDR;
     
-    // 先頭2バイト(プレフィクスとマジックナンバー)を読み出し
-    uint8_t temp_prefix = (uint8_t)(FLASH_Read(current_addr++) & 0xFF);
-    uint8_t magic       = (uint8_t)(FLASH_Read(current_addr++) & 0xFF);
+    // 先頭1バイト(マジックナンバー)を読み出し
+    uint8_t magic = (uint8_t)(FLASH_Read(current_addr++) & 0xFF);
     
     if (magic == NVM_MAGIC_VAL) {
-        global_prefix = temp_prefix;
         
         // 構造体配列の復元
         uint8_t *ptr = (uint8_t *)port_configs;
@@ -189,14 +179,13 @@ void LoadSettings(void) {
         }
     } else {
         // 初回起動時（またはフォーマット時）：デフォルト値を設定してFlashに保存
-        global_prefix = 0xFF;
         for(uint8_t i = 0; i < TOTAL_MAX_LINES; i++){
             port_configs[i].extension = 11 + i;
             port_configs[i].initial_state = 0;
-            port_configs[i].port_type = 0; // デフォルトはSLIC
             port_configs[i].hotline_len = 0; // ホットライン無効化
             port_configs[i].reserved = 0;
-            memset(port_configs[i].hotline_num, 0, MAX_IP_DIGITS);
+            port_configs[i].caller_id_enabled = 0;
+            memset(port_configs[i].hotline_num, 0, MAX_EXT_DIGITS);
         }
         SaveSettings();
         printf("PBXCore: Storage initialized\r\n");
@@ -218,9 +207,7 @@ const char* GetStateString(PBX_State state) {
         case STATE_BUSY:     return "BUSY";
         case STATE_UNAVAIL:  return "UNAVAIL";
         case STATE_AUTOANS:  return "AUTOANS";
-        case STATE_IP_SENDING_DIGITS: return "IPSENDING";
-        case STATE_IP_WAITING_ANS: return "IPWAITING";
-        case STATE_IP_ABORTING: return "IPABORTING";
+        case STATE_SP_NUMBER: return "SPECIAL_N";
         default:             return "UNKNOWN";
     }
 }
@@ -240,18 +227,22 @@ void PBX_SystemTick_1ms(void) {
     }
 }
 
+// 1mS割り込みハンドラ
+volatile uint8_t system_tick_count = 0;
+
+void TMR2_Tick_Handler(void) {
+    system_tick_count++;
+}
+
 #define CMDBUFSIZE 64
 char rxBuffer[CMDBUFSIZE];
 uint8_t rxIndex = 0;
 
 // ヒストリ機能用
 char lastCmdBuffer[CMDBUFSIZE] = {0}; 
-uint8_t escState = 0;                 
+uint8_t escState = 0;
 
 // プロトタイプ宣言
-void SoftwareUART_WriteString(const char* str);
-void SwitchControl(bool control, uint8_t line1, uint8_t line2);
-void SwitchControl_Single(bool control, uint8_t switch1, uint8_t switch2);
 void ProcessStateMachine(uint8_t ch);
 void ProcessCommandLine(const char *str);
 
@@ -267,12 +258,11 @@ int main(void)
     uint16_t device_id = read_configuration_space(0x8006);
     uint16_t revision_id = read_configuration_space(0x8007);
  
-    TMR2_PeriodMatchCallbackRegister(PBX_SystemTick_1ms);
     INTERRUPT_GlobalInterruptEnable(); 
     INTERRUPT_PeripheralInterruptEnable(); 
 
     printf("\r\n\r\n");
-    printf("PBXCore: Starting (%s)\r\n",version_string);
+    printf("MINI-PBXCore: Starting (%s)\r\n",version_string);
     printf(" PIC DeviceID: %x(%x)\r\n",device_id,revision_id);
     printf(" Built at: %s %s (XC8 v%d)\r\n", __DATE__, __TIME__, COMPILER_VER);
     printf(" Flash Size: %u Words\r\n", PROGMEM_SIZE);
@@ -287,37 +277,16 @@ int main(void)
     printf("PBXCore: Active LINES: %d\r\n", current_max_lines);
 
     printf("PBXCore: Initializing Switchboard ");
-    SoftwareUART_WriteString("RFFFF\r");
+    HAL_Switch_Control(false);
     __delay_ms(100);
-    for(uint8_t i = 0; i<= current_max_lines; i+=2){
-        SoftwareUART_WriteString("RFFFF\r");
-        __delay_ms(100);
-        printf(".");
-    }
+
     printf("done.\r\n");
     
-    printf("PBXCore: Testing Switchs.\r\n");
-    uint8_t i,j;
-    for(i = 1; i <= current_max_lines; i++){
-        for(j = 1; j <= current_max_lines; j+=2){
-            CLRWDT();
-            SwitchControl(true, i, j);
-            printf(" ON:%d-%d",i,j);
-            __delay_ms(50);
-        }
-    }
-    printf("\r\n");
-    for(i = 1; i <= current_max_lines; i++){
-        for(j = 1; j <= current_max_lines; j+=2){
-            CLRWDT();
-            SwitchControl(false, i, j);
-            printf(" OFF:%d-%d",i,j);
-            __delay_ms(50);
-        }
-    }
-    printf("\r\n");
-    printf("PBXCore: Switch test done.\r\n");
-    
+    printf("PBXCore: Testing Switch.\r\n");
+    HAL_Switch_Control(true);
+    __delay_ms(500);
+    HAL_Switch_Control(false);
+
     printf("PBXCore: Resetting All States");
     for (uint8_t i = 0; i < current_max_lines; i++) {
         lines[i].state = STATE_IDLE;
@@ -328,6 +297,8 @@ int main(void)
         lines[i].dp_timer = 0;
         lines[i].state_timer = 0;
         lines[i].target_port = 0xFF; 
+        lines[i].special_number = 0;
+        lines[i].indication_tones = 0;
     }
     __delay_ms(100);
     printf(" - done.\r\n");
@@ -348,30 +319,24 @@ int main(void)
     printf("PBXCore: Loading settings from NVM.\r\n");
     LoadSettings();
     for(uint8_t i = 0; i < current_max_lines; i++){
-        if(port_configs[i].port_type == 1){
-            printf(" Port %2d : IP-UNIT\r\n", i + 1);
-        }
-        else{
-            printf(" Port %2d : Ext %d\r\n", i + 1, port_configs[i].extension);
-        }
-    }
-
-    printf("PBXCore: Reset IP Unit.\r\n");
-    for(uint8_t i = 0; i < current_max_lines; i++){
-        if(port_configs[i].port_type == PORT_TYPE_IP){
-            printf(" Reset Port %d\r\n", i+1);
-            HAL_SetTone(i, TONE_BUSY);
-            __delay_ms(500);
-            HAL_SetTone(i, TONE_OFF);
-        }
+        printf(" Port %2d : Ext %d\r\n", i + 1, port_configs[i].extension);
     }
 
     printf("\r\n");
     printf("PBXCore: === PBX Ready ===\r\n");
 
+    TMR2_PeriodMatchCallbackRegister(TMR2_Tick_Handler);
+ 
     while(1)
     {
         CLRWDT();
+
+        // TickタイマをみてPBX_SstemTickを実行
+        // メインの処理にTickを同期させる
+        while (system_tick_count > 0) {
+            system_tick_count--;
+            PBX_SystemTick_1ms();
+        }
 
         for(uint8_t i = 0; i < current_max_lines; i++){
             ProcessStateMachine(i);
@@ -397,7 +362,7 @@ int main(void)
                         printf("\b \b");
                     }
                     strcpy(rxBuffer, lastCmdBuffer);
-                    rxIndex = strlen(rxBuffer);
+                    rxIndex = (uint8_t) strlen(rxBuffer);
                     printf("%s", rxBuffer);
                 }
                 escState = 0;
@@ -437,54 +402,6 @@ int main(void)
     }
 }
 
-void SoftwareUART_WriteString(const char* str)
-{
-    while (*str) {
-        HAL_SoftwareUART_WriteByte(*str);
-        str++;
-    }
-}
-
-void SwitchControl(bool control, uint8_t line1, uint8_t line2)
-{
-    char buf[8];
-    if(control == true) buf[0] = 'C';
-    else buf[0] = 'R';
-
-    buf[5] = 0x0d;
-    buf[6] = 0x00;
-
-    buf[1] = (line1 / 10) + 0x30;
-    buf[2] = (line1 % 10) + 0x30;
-    buf[3] = (line2 / 10) + 0x30;
-    buf[4] = (line2 % 10) + 0x30;
-    SoftwareUART_WriteString(buf);
-    __delay_ms(1);
-
-    buf[1] = (line2 / 10) + 0x30;
-    buf[2] = (line2 % 10) + 0x30;
-    buf[3] = (line1 / 10) + 0x30;
-    buf[4] = (line1 % 10) + 0x30;
-    SoftwareUART_WriteString(buf);
-    __delay_ms(1);
-}
-
-void SwitchControl_Single(bool control, uint8_t switch1, uint8_t switch2)
-{
-    char buf[8];
-    if(control == true) buf[0] = 'C';
-    else buf[0] = 'R';
-
-    buf[1] = (switch1 / 10) + 0x30;
-    buf[2] = (switch1 % 10) + 0x30;
-    buf[3] = (switch2 / 10) + 0x30;
-    buf[4] = (switch2 % 10) + 0x30;
-    buf[5] = 0x0d;
-    buf[6] = 0x00;
-
-    SoftwareUART_WriteString(buf);
-    __delay_ms(1);
-}
 
 // 各回線処理のステートマシン
 void ProcessStateMachine(uint8_t ch) {
@@ -498,28 +415,19 @@ void ProcessStateMachine(uint8_t ch) {
         
         if (line->hangup_timer == 0) {
             if (line->state != STATE_IDLE &&
-                line->state != STATE_RINGING &&
-                line->state != STATE_IP_SENDING_DIGITS &&
-                line->state != STATE_IP_WAITING_ANS &&
-                line->state != STATE_IP_ABORTING ) {
+                line->state != STATE_RINGING ) {
                 
                 if (line->target_port != 0xFF) {
                     uint8_t t_ch = line->target_port;
                     
                     if (line->state == STATE_CALLING) {
                         HAL_SetRing(t_ch, false);
-                        if (port_configs[t_ch].port_type == PORT_TYPE_IP) { 
-                            HAL_SetTone(t_ch, TONE_BUSY);
-                            lines[t_ch].state_timer = 500; 
-                            lines[t_ch].state = STATE_IP_ABORTING;
-                        } else {
-                            lines[t_ch].state = STATE_IDLE;
-                        }
+                        lines[t_ch].state = STATE_IDLE;
                         lines[t_ch].target_port = 0xFF;
                         printf("Port %d: Caller aborted. Port %d stopped ringing.\r\n", ch + 1, t_ch + 1);
                     }
                     else if (line->state == STATE_TALKING) {
-                        SwitchControl(false, ch + 1, t_ch + 1); 
+                        HAL_Switch_Control(false); 
                         if (lines[t_ch].state != STATE_AUTOANS){ 
                             HAL_SetTone(t_ch, TONE_BUSY);           
                             lines[t_ch].state = STATE_BUSY;
@@ -547,22 +455,13 @@ void ProcessStateMachine(uint8_t ch) {
     switch (line->state) {
         case STATE_IDLE:
             if (line->last_hook == false && line->current_hook == true) {
-                line->is_external_call = false;
                 
                 // 多桁ホットライン発信処理
                 if (port_configs[ch].hotline_len > 0) {
                     for (uint8_t i = 0; i < port_configs[ch].hotline_len; i++) {
                         line->dialed_number[i] = port_configs[ch].hotline_num[i];
                     }
-                    line->dialed_digits = port_configs[ch].hotline_len;
-                    
-                    // IP電話(外線)かどうかの判定 (プレフィクス一致 または 内線桁数超え)
-                    if (global_prefix != 0xFF && line->dialed_number[0] == global_prefix) {
-                        line->is_external_call = true;
-                    } else if (line->dialed_digits > MAX_EXT_DIGITS) {
-                        line->is_external_call = true;
-                    }
-                    
+                    line->dialed_digits = port_configs[ch].hotline_len;                   
                     line->state = STATE_ROUTING; 
                     
                     printf("Port %d: Off-Hook -> HOTLINE to ", ch + 1);
@@ -601,30 +500,18 @@ void ProcessStateMachine(uint8_t ch) {
                 line->dialed_digits++;
                 line->dp_count = 0;
                 
+                line->state_timer = DIAL_TIMEOUT;
+
                 printf("Port %d: Digit %d received\r\n", ch + 1, digit);
 
-                if (line->dialed_digits == 1 && global_prefix != 0xFF && digit == global_prefix) {
-                    line->is_external_call = true;
-                    printf("Port %d: Prefix dialed -> External IP Call Mode\r\n", ch + 1);
-                }
-
-                if (line->is_external_call) {
-                    if (line->dialed_digits >= MAX_IP_DIGITS) {
-                        line->state = STATE_ROUTING;
-                    }
-                    else {
-                        line->state_timer = 3000;
-                    }
-                } else {
-                    if (line->dialed_digits >= MAX_EXT_DIGITS) {
-                        line->state = STATE_ROUTING;
-                    }
+                if (line->dialed_digits >= MAX_EXT_DIGITS+2) {
+                    line->state = STATE_ROUTING;
                 }
             }
 
             if (line->current_hook == true && line->dp_timer == 0 && line->dp_count == 0 
-                && line->is_external_call && line->dialed_digits > 1) {
-                if(line->state_timer == 0){ 
+                && line->dialed_digits > 1) {
+                    if(line->state_timer == 0){ 
                     printf("Port %d: Dialing complete -> ROUTING\r\n", ch + 1);
                     line->state = STATE_ROUTING;
                 }
@@ -633,41 +520,18 @@ void ProcessStateMachine(uint8_t ch) {
 
         case STATE_ROUTING:
         {
-            if (line->is_external_call) {
-                uint8_t ip_ch = 0xFF;
-                for (uint8_t i = 0; i < current_max_lines; i++) {
-                    if (port_configs[i].port_type == PORT_TYPE_IP && lines[i].state == STATE_IDLE) {
-                        ip_ch = i;
-                        break;
-                    }
-                }
+            uint16_t dialed_val = 0;
+            for(uint8_t i = 0; i < line->dialed_digits; i++) {
+                dialed_val = (dialed_val * 10) + line->dialed_number[i];
+            }
 
-                if (ip_ch != 0xFF) {
-                    line->target_port = ip_ch;
-                    lines[ip_ch].target_port = ch;
-
-                    HAL_SetTone(ch, TONE_OFF); 
-                    line->state = STATE_CALLING;
-
-                    lines[ip_ch].send_dp_idx = 1;     
-                    lines[ip_ch].send_dp_count = 0;
-                    lines[ip_ch].send_dp_phase = 0;   
-                    lines[ip_ch].state_timer = 100;   
-                    lines[ip_ch].state = STATE_IP_SENDING_DIGITS;
-
-                    printf("Port %d: Routing to IP Unit (Port %d). Number: ", ch + 1, ip_ch + 1);
-                    for (uint8_t d = 1; d < line->dialed_digits; d++) {
-                        printf("%d", line->dialed_number[d]);
-                    }
-                    printf("\r\n");
-                } else {
-                    HAL_SetTone(ch, TONE_BUSY);
-                    line->state = STATE_BUSY;
-                    printf("Port %d: All IP Units BUSY\r\n", ch + 1);
-                }
+            //特番処理
+            if(dialed_val == 24370 || dialed_val == 24371){
+                line->special_number = dialed_val;
+                line->state = STATE_SP_NUMBER;
                 break;
             }
-            uint8_t dialed_val = (line->dialed_number[0] * 10) + line->dialed_number[1];
+
             uint8_t target_ch = 0xFF; 
 
             for (uint8_t i = 0; i < current_max_lines; i++) {
@@ -677,15 +541,31 @@ void ProcessStateMachine(uint8_t ch) {
                 }
             }
 
-            if (target_ch == 0xFF || target_ch == ch || port_configs[target_ch].port_type == PORT_TYPE_IP) {
+            if (target_ch == 0xFF || target_ch == ch ) {
                 HAL_SetTone(ch, TONE_BUSY); 
                 line->state = STATE_BUSY;
-                printf("Port %d: Invalid number or IP Unit %d -> BUSY\r\n", ch + 1, dialed_val);
+                printf("Port %d: Invalid number %d -> BUSY\r\n", ch + 1, dialed_val);
             } 
             else {
                 if (lines[target_ch].state == STATE_IDLE) {
                     line->target_port = target_ch;
                     lines[target_ch].target_port = ch;
+                    
+                    if (port_configs[target_ch].caller_id_enabled == 1) {
+                        char cid_string[MAX_EXT_DIGITS+2];
+                        sprintf(cid_string, "%d", port_configs[ch].extension);
+                        printf("Port %d: Sending CID to Port %d (CID: %s)\r\n", ch + 1, target_ch + 1, cid_string);
+                        // UART 掃き出し待ち
+                        __delay_ms(100);
+                        // CID送出。モデムタイミング維持のため割り込みブロック
+                        // ここで割り込みが全てブロックされるのでこのコアは多回線処理には向かない
+                        INTERRUPT_GlobalInterruptDisable(); 
+                        INTERRUPT_PeripheralInterruptDisable();
+                        Send_NTT_CallerID(target_ch, cid_string);
+                        // 送出完了後は割り込み復旧
+                        INTERRUPT_GlobalInterruptEnable(); 
+                        INTERRUPT_PeripheralInterruptEnable();
+                    }
 
                     HAL_SetTone(ch, TONE_RINGBACK);
                     line->state = STATE_CALLING;
@@ -701,7 +581,7 @@ void ProcessStateMachine(uint8_t ch) {
                     HAL_SetTone(ch, TONE_OFF);
                     line->state = STATE_TALKING;
                     uint8_t caller = line->target_port;
-                    SwitchControl(true, ch + 1, caller + 1);
+                    HAL_Switch_Control(true);
                     printf("Port %d: Called Port %d -> AUTO ANSWERed\r\n", ch + 1, target_ch + 1);
                 }
                 else {
@@ -722,11 +602,60 @@ void ProcessStateMachine(uint8_t ch) {
                 uint8_t caller = line->target_port;
                 HAL_SetTone(caller, TONE_OFF);
                 
-                SwitchControl(true, ch + 1, caller + 1);
+                HAL_Switch_Control(true);
                 line->state = STATE_TALKING;
                 lines[caller].state = STATE_TALKING;
                 
                 printf("Port %d: Answered Port %d -> TALKING\r\n", ch + 1, caller + 1);
+            }
+            break;
+
+        case STATE_SP_NUMBER: // 特番処理開始 (800Hz ON)
+            printf("  Special #%d", line->special_number);
+            if(line->special_number == 24371){
+                printf(" Port %d CID spport set to ON\r\n",ch);
+                port_configs[ch].caller_id_enabled = 1;
+                line->indication_tones = 1;
+            }
+            else if(line->special_number == 24370){
+                printf(" Port %d CID spport set to OFF\r\n",ch);
+                port_configs[ch].caller_id_enabled = 0;
+                line->indication_tones = 2;
+            }
+            else {
+                printf(" Unkown # \r\n");
+                line->indication_tones = 3;
+            }
+            line->state = STATE_SP_NUMBER_WAIT1;
+            break;
+        case STATE_SP_NUMBER_WAIT1: //インディケーショントーン回数制御のためトーン用STATE
+            NCO1_SetIncrement(TONE_800Hz);
+            HardwareToneControl(ch, true); 
+            
+            line->state_timer = 100; // 200msのタイマーをセット
+            line->state = STATE_SP_NUMBER_WAIT2; // 次の待機ステートへ遷移
+            break;
+
+        case STATE_SP_NUMBER_WAIT2: // 200ms経過待ち
+            if (line->state_timer == 0) {
+                HardwareToneControl(ch, false); // 800Hz OFF
+                NCO1_SetIncrement(TONE_400HZ);  // 400Hzに戻す
+                
+                line->state_timer = 500; // 500msのタイマーをセット
+                line->state = STATE_SP_NUMBER_WAIT3;
+            }
+            break;
+
+        case STATE_SP_NUMBER_WAIT3: // 500ms経過待ち
+            if (line->state_timer == 0) {
+                line->indication_tones--;
+                if(line->indication_tones > 0){ //鳴らす回数に応じて次のSTATE切替え
+                    line->state = STATE_SP_NUMBER_WAIT1;
+                }
+                else { // 特番処理が終わったらBUSYで電話を切らせる
+                    HAL_SetTone(ch, TONE_BUSY);
+                    line->state = STATE_BUSY;
+                }
             }
             break;
 
@@ -739,67 +668,6 @@ void ProcessStateMachine(uint8_t ch) {
         case STATE_AUTOANS:
             break;
 
-        case STATE_IP_SENDING_DIGITS:
-            if (line->state_timer == 0) {
-                uint8_t caller = line->target_port;
-                if (caller == 0xFF || lines[caller].state != STATE_CALLING) {
-                    HAL_SetRing(ch, false);
-                    line->state = STATE_IDLE;
-                    break;
-                }
-
-                if (line->send_dp_phase == 0) {
-                    if (line->send_dp_idx < lines[caller].dialed_digits) {
-                        uint8_t digit = lines[caller].dialed_number[line->send_dp_idx];
-                        line->send_dp_count = (digit == 0) ? 10 : digit; 
-                        line->send_dp_phase = 1;
-                        printf("Port %d (IP Unit): Sending digit [%d] ...\r\n", ch + 1, digit);
-                    } else {
-                        line->state = STATE_IP_WAITING_ANS;
-                        HAL_SetRing(ch, false); 
-                        HAL_SetTone(caller, TONE_RINGBACK); 
-                        break;
-                    }
-                }
-
-                if (line->send_dp_phase == 1) { 
-                    HAL_SetRing(ch, true); 
-                    line->state_timer = 20; 
-                    line->send_dp_phase = 2;
-                } else if (line->send_dp_phase == 2) { 
-                    HAL_SetRing(ch, false);
-                    line->send_dp_count--;
-                    if (line->send_dp_count > 0) {
-                        line->state_timer = 20; 
-                        line->send_dp_phase = 1; 
-                    } else {
-                        line->state_timer = 300; 
-                        line->send_dp_phase = 0;
-                        line->send_dp_idx++;
-                    }
-                }
-            }
-            break;
-
-        case STATE_IP_WAITING_ANS:
-            if (line->last_hook == false && line->current_hook == true) {
-                uint8_t caller = line->target_port;
-                HAL_SetTone(caller, TONE_OFF); 
-                
-                SwitchControl(true, ch + 1, caller + 1); 
-                line->state = STATE_TALKING;
-                lines[caller].state = STATE_TALKING;
-                
-                printf("Port %d: IP Unit answered -> TALKING\r\n", ch + 1);
-            }
-            break;
-
-        case STATE_IP_ABORTING:
-            if (line->state_timer == 0) {
-                HAL_SetTone(ch, TONE_OFF);
-                line->state = STATE_IDLE;
-            }
-            break;
     }
     line->last_hook = line->current_hook;
 }
@@ -810,26 +678,12 @@ void ProcessCommandLine(const char* str){
     
     printf("\r\n");
     if (strcmp(str, "STAT") == 0) {
-        printf("** PBX Core Ver. %s\r\n",version_string);
-        if(global_prefix == 0xff){
-            printf("Prefix(IP) not set\r\n");
-        }
-        else {
-            printf("Current Prefix : %d\r\n", global_prefix);
-        }
+        printf("** MINI-PBX Core Ver. %s\r\n",version_string);
         printf("--- Line Status -------\r\n");
         for (uint8_t i = 0; i < current_max_lines; i++) {
-            char port_type[4];
-            if(port_configs[i].port_type == 1){
-                strcpy(port_type, "IP-U");
-            }
-            else{
-                strcpy(port_type, "SLIC");
-            }
-            printf("Port %d [Ext:%d] (%-4s) : %-8s", 
+            printf("Port %d [Ext:%u] (SLIC) : %-8s", 
                    i + 1, 
                    port_configs[i].extension,
-                   port_type,
                    GetStateString(lines[i].state));
             
             if (lines[i].target_port != 0xFF) {
@@ -845,20 +699,37 @@ void ProcessCommandLine(const char* str){
                     printf("%d", port_configs[i].hotline_num[d]);
                 }
             }
-            
+            if(port_configs[i].caller_id_enabled == 1){
+                printf(" | CID:ON");
+            } else {
+                printf(" | CID:OFF");
+            }
             printf("\r\n");
         }
         printf("-----------------------\r\n");
     }
     else if (strncmp(str, "SET EXT ", 8) == 0) {
         uint8_t port = str[8] - '1';
-        if (port < current_max_lines && str[9] == ' ' && str[10] >= '0' && str[10] <= '9') {
-            uint8_t ext = (str[10] - '0') * 10 + (str[11] - '0'); 
-            port_configs[port].extension = ext;
-            printf("Success: Port %d extension set to %d\r\n", port + 1, ext);
+        if (port < current_max_lines && str[9] == ' ') {
+            uint16_t ext = 0;
+            uint8_t len = 0;
+            
+            // 1〜4桁の数字を可変長でパースする
+            while (str[10 + len] >= '0' && str[10 + len] <= '9' && len < 4) {
+                ext = (ext * 10) + (str[10 + len] - '0');
+                len++;
+            }
+            
+            if (len > 0) {
+                port_configs[port].extension = ext;
+                printf("Success: Port %d extension set to %u\r\n", port + 1, ext);
+            } else {
+                printf("Error: Invalid format.\r\n");
+                printf("Usage: SET EXT <port:1-%d> <ext:1-9999>\r\n", current_max_lines);
+            }
         } else {
             printf("Error: Invalid format.\r\n");
-            printf("Usage: SET EXT <port:1-%d> <ext:10-99>\r\n", current_max_lines);
+            printf("Usage: SET EXT <port:1-%d> <ext:1-9999>\r\n", current_max_lines);
         }
     }
     else if (strncmp(str, "SET AA ", 7) == 0) {
@@ -896,7 +767,7 @@ void ProcessCommandLine(const char* str){
             uint8_t line2 = str[12] - '0';
             if (str[11] == ' ') {
             printf("Connect Switch: %d-%d %d-%d\r\n",line1, line2, line2, line1);
-                SwitchControl(true, line1, line2);
+                HAL_Switch_Control(true);
                 printf("Executed: SwitchControl(true, %d, %d)\r\n", line1, line2);
             } else {
                 printf("Error: Invalid arguments.\r\n");
@@ -908,7 +779,7 @@ void ProcessCommandLine(const char* str){
             uint8_t line2 = str[12] - '0';
             if (str[11] == ' ') {
                 printf("Release Switch: %d-%d %d-%d\r\n",line1, line2, line2, line1);
-                SwitchControl(false, line1, line2);
+                HAL_Switch_Control(false);
                 printf("Executed: SwitchControl(false, %d, %d)\r\n", line1, line2);
             } else {
                 printf("Error: Invalid arguments.\r\n");
@@ -916,7 +787,7 @@ void ProcessCommandLine(const char* str){
             }
         }
         else if (strcmp(&str[6], "FULL_RESET") == 0) {
-            SoftwareUART_WriteString("RFFFF\r"); 
+            HAL_Switch_Control(false);
             printf("Executed: Switchboard Full Reset\r\n");
         }
         else {
@@ -924,7 +795,7 @@ void ProcessCommandLine(const char* str){
             printf("Available: CON, REL, FULL_RESET\r\n");
         }
     }
-    // 多桁ホットライン設定コマンドのパース処理
+    // ホットライン設定コマンドのパース処理
     else if (strncmp(str, "SET HL ", 7) == 0) {
         uint8_t port = str[7] - '1';
         if (port < current_max_lines && str[8] == ' ') {
@@ -934,7 +805,7 @@ void ProcessCommandLine(const char* str){
             } else {
                 // 文字列から数値をパースして配列に格納する
                 uint8_t len = 0;
-                while (str[9 + len] >= '0' && str[9 + len] <= '9' && len < MAX_IP_DIGITS) {
+                while (str[9 + len] >= '0' && str[9 + len] <= '9' && len < MAX_EXT_DIGITS) {
                     port_configs[port].hotline_num[len] = str[9 + len] - '0';
                     len++;
                 }
@@ -952,52 +823,38 @@ void ProcessCommandLine(const char* str){
             printf("Usage: SET HL <port:1-%d> <number or OFF>\r\n", current_max_lines);
         }
     }
-    // 旧コマンド名でも動作するように残し、Flash保存を実行
-    else if(strcmp(str, "SAVE_TO_EEPROM") == 0 || strcmp(str, "SAVE_SETTINGS") == 0){ 
-        SaveSettings();
-        printf("Success: Settings saved to NVM Flash.\r\n");
-    }
-    else if (strncmp(str, "SET PFX ", 8) == 0) {
-        if (strncmp(str + 8, "OFF", 3) == 0) {
-            global_prefix = 0xFF;
-            printf("Success: Prefix disabled\r\n");
-        } else if (str[8] >= '0' && str[8] <= '9') {
-            global_prefix = str[8] - '0';
-            printf("Success: External Prefix set to '%d'\r\n", global_prefix);
-        } else {
-            printf("Usage: SET PFX <0-9 or OFF>\r\n");
-        }
-    }
-    else if (strncmp(str, "SET TYPE ", 9) == 0) {
-        uint8_t port = str[9] - '1';
-        if (port < current_max_lines && str[10] == ' ') {
-            if (strncmp(str + 11, "SLIC", 4) == 0) {
-                port_configs[port].port_type = PORT_TYPE_SLIC;
-                printf("Success: Port %d type set to SLIC\r\n", port + 1);
-            } else if (strncmp(str + 11, "IP", 2) == 0) {
-                port_configs[port].port_type = PORT_TYPE_IP;
-                printf("Success: Port %d type set to IP Unit\r\n", port + 1);
+    else if (strncmp(str, "SET CID ", 8) == 0) { //ナンバーディスプレイ対応設定
+        uint8_t port = str[8] - '1';
+        if (port < current_max_lines && str[9] == ' ') {
+            if (strncmp(str + 10, "ON", 2) == 0) {
+                port_configs[port].caller_id_enabled = 1;
+                printf("Success: Port %d Caller ID enabled\r\n", port + 1);
+            } else if (strncmp(str + 10, "OFF", 3) == 0) {
+                port_configs[port].caller_id_enabled = 0;
+                printf("Success: Port %d Caller ID disabled\r\n", port + 1);
             } else {
-                goto type_error;
+                goto cid_error;
             }
         } else {
-type_error:
-            printf("Usage: SET TYPE <port:1-%d> <SLIC or IP>\r\n", current_max_lines);
+cid_error:
+            printf("Usage: SET CID <port:1-%d> <ON or OFF>\r\n", current_max_lines);
         }
+    }
+    else if(strcmp(str, "SAVE_SETTINGS") == 0){ 
+        SaveSettings();
+        printf("Success: Settings saved to NVM Flash.\r\n");
     }
     else if(strcmp(str, "HELP") == 0 || strcmp(str, "?") == 0){ 
         printf("---Commands---\r\n");
         printf("STAT    : Display current Status.\r\n");
         printf("SET EXT : Set extension(number) for each port.\r\n");
-        printf("          Usage: SET EXT <port:1-%d> <ext:10-99>\r\n", current_max_lines);
+        printf("          Usage: SET EXT <port:1-%d> <ext:1-9999>\r\n", current_max_lines);
         printf("SET AA  : Set port to AUTO ANSWER mode.\r\n");
         printf("          Usage: SET AA  <port:1-%d> <ON/OFF>\r\n", current_max_lines);
         printf("SET HL  : Set port HOTLINE number (up to 16 digits)\r\n");
         printf("          Usage: SET HL <port:1-%d> <number or OFF>\r\n", current_max_lines);
-        printf("SET PFX : Set prefix for IP Dialing\r\n");
-        printf("          Usage: SET PFX <0-9>\r\n");
-        printf("SET TYPE: Set Port hardware type\r\n");
-        printf("          Usage: SET TYPE <port> <SLIC/IP>\r\n");
+        printf("SET CID : Set Caller ID (Number Display) enable/disable\r\n");
+        printf("          Usage: SET CID <port:1-%d> <ON/OFF>\r\n", current_max_lines);
         printf("SBCTL   : Manually ON/OFF/FULL_RESET Switchboard.\r\n");
         printf("          Usage : SBCTL CON/REL <port1> <port2>\r\n");
         printf("          Example: SBCTL CON 1 2   - Connect 1 and 2 Switch.\r\n");

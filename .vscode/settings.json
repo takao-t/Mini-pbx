@@ -9,5 +9,7 @@
     ],
     "mplab.clangd.arguments": [
         "--header-insertion=never"
-    ]
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "cmake.sourceDirectory": "C:/Users/tsq/MPLABProjects/Mini-PBX/cmake/Mini-PBX/default"
 }

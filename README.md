@@ -26,16 +26,27 @@ SLICモジュールの回線インタフェース側はデータシート通り�
 
 ## Update Info.
 
-元となっているPBXCoreのアップデートに伴い、Mini-PBXもアップデートを行いました。主な変更点は以下の通りです。
-- 設定保存の領域をEEPROMからプログラムメモリ(NVM)に変更しました。これに伴いXC8のC Compiler Optimizationで Address Qualifyを"Required"に設定してください。
+### 対象バージョン
+Ver 1.4.0 以降。Mini-PBX専用バージョン。
+
+### 開発環境上の注意
+設定情報の保存方法変更にともない、XC8のC Compiler Optimizationで Address Qualifyを"Required"に設定してください。
 - 設定保存のための領域に関わるパラメータをhal_pbx.hに入れました。
 - 設定保存コマンドをSAVE_SETTINGSに変更しました。
 
-2回線PBXでは特に必要ない変更なのですが、main.c(PBXCore)を使いまわすための措置です。
+### ナンバーディスプレイに対応しました
+ハードウェアに変更はありません。PICのソフトウェアのみで対応します。ナンバーディスプレイが付いていても2回線専用なのであまり面白くはありませんが。
 
-現在のところmain.cに関してはアナログPBX開発環境のものと共通です。バージョンとしてはアナログPBX開発環境のPBXCoreが先行することがありますので、新しい機能を使いたい場合には、そちらのmain.cを使ってください。( https://github.com/takao-t/analog-pbx/tree/main/PBXCore )
+電話機がナンバーディスプレイに対応するかどうかの設定を電話機から行えるようにしました。ただし、この設定は動作中の設定のみなのでMini-PBXを再起動すると元に戻ります。恒久的な設定を行う場合にはUART経由で設定し、save_settingsを実行してください。
 
-ただし、PBXCoreのmain.cが少々肥大化してきており、PIC 16F18326ではすでに90%近いプログラムメモリを消費するようになっていますので、今後は別管理にするかもしれません。そもそもこのmini-PBXに必要ないIP接続ユニットの機能なんてのも入ってますから。
+特番24370と24371がナンバーディスプレイ対応の設定です。24371をダイヤルすると、その回線はナンバーディスプレイ対応となり、シングルトーンが鳴った後に話中音となりますので電話を切ってください。24370をダイヤルするとナンバーディスプレイ非対応となり、トーンが2回鳴った後に話中音となります。
+
+### PBXCoreを専用としました
+これまでPBXCoreは共通としていましたがCIDサポート等の対応によりミニPBX専用のプログラムとしました。コード類は元のPBXCoreから引きずっている部分は多数ありますが2回線専用にかなり書き換えられています。
+
+### 内線番号の桁数を増やしました
+内線番号を最大4桁まで対応するようにしました。
+
 
 ## 簡単な回路説明
 
@@ -153,27 +164,27 @@ Line1(Port1)とLine2(Port2)はデフォルトではそれぞれ内線11と12に�
 シリアルコンソール(UART)は9600bpsです。PBX側のTXは「PBXの送信」側です。USB-UART等のRXに繋ぎます。PBXのRX側も同様です。繋いで動作を見ると以下のように出ます。
 
 ```
-PBXCore: Starting (1.3_NVM_Storage)
-PBXCore: Storage start address = 3fc0
-PBXCore: Storage size 64 words.
+PBXCore: Starting (1.4.0_MINI-PBX)
+ PIC DeviceID: 30a4(3f8c)
+ Built at: Oct 20 2026 12:52:27 (XC8 v3100)
+ Flash Size: 16384 Words
+ Storage start address = 3fc0
+ Storage size 64 words.
 PBXCore: Active LINES: 2
 PBXCore: Initializing Switchboard ..done.
-PBXCore: Testing Switchs.
- ON:1-1 ON:2-1
- OFF:1-1 OFF:2-1
-PBXCore: Switch test done.
-PBXCore: Reseting All States - done.
+PBXCore: Testing Switch.
+PBXCore: Resetting All States - done.
 PBXCore: Checking LINE modules
  Port  1- OK
  Port  2- OK
 PBXCore: Loading settings from NVM.
- Port  1 : Ext 21
+ Port  1 : Ext 11
  Port  2 : Ext 12
-PBXCore: Reset IP Unit.
 
 PBXCore: === PBX Ready ===
 ```
-この2回線PBXでは、メッセージのほとんどに意味がありません。スイッチのテストを行っていますが、2回線なので2つのSLICを直接、4066で接続しているだけです。なぜこのメッセージが出るのかというと、このPBX Coreプログラムは他のPBXと共通のものが使えるように作ってあるからです。なので、起動時メッセージはあまり気にしなくて大丈夫です。Port 1 - OKとかも気にしなくていいのですが、受話器外しをしている状態でPBX側を再起動するとPort 1- NGになり、回線使用不可の判定になります。回線使用不可になっても受話器を戻して上げ下げすると使用可に戻ります。
+この2回線PBXでは、起動時メッセージは情報を確認する程度です。
+各ポートのチェックでは受話器外しをしている状態でPBX側を再起動するとPort 1- NGになり、回線使用不可の判定になります。回線使用不可になっても受話器を戻して上げ下げすると使用可に戻ります。
 
 ヘルプも用意しています。
 ```
@@ -186,10 +197,8 @@ SET AA  : Set port to AUTO ANSWER mode.
           Usage: SET AA  <port:1-2> <ON/OFF>
 SET HL  : Set port HOTLINE number (up to 16 digits)
           Usage: SET HL <port:1-2> <number or OFF>
-SET PFX : Set prefix for IP Dialing
-          Usage: SET PFX <0-9>
-SET TYPE: Set Port hardware type
-          Usage: SET TYPE <port> <SLIC/IP>
+SET CID : Set Caller ID (Number Display) enable/disable
+          Usage: SET CID <port:1-2> <ON/OFF>
 SBCTL   : Manually ON/OFF/FULL_RESET Switchboard.
           Usage : SBCTL CON/REL <port1> <port2>
           Example: SBCTL CON 1 2   - Connect 1 and 2 Switch.
@@ -213,9 +222,15 @@ SET HL 1 22
 ```
 のように設定します。こうすると1側の受話器を上げると自動で22にダイヤルします。
 
+ナンバーディスプレイ使用時は対応する電話機を接続しているポートにONを設定します。
+```
+SET CID 1 ON
+```
+ナンバーディスプレイに対応しない電話機を接続している場合にONを設定すると短RINGの後に長RINGとなる呼び出し音になります。
+
 オートアンサ(AA)はこの構成(2回線)で使うことはまずありません。もとの想定は特定の番号にスピーカやラジオを繋いで使うものです。
 
-SBCTRLもこの構成ではほぼ意味を持ちません。そもそもスイッチボード(交換台)機能を搭載していないので、接続コマンドが来たら接続、開放コマンドが来たら開放するだけなので、どことどこを繋ぐという機能は意味を持たないからです。ボード上のTALK LEDをパカパカする程度になら使えるかもです。もともとこのコマンドはデバッグ用ですし。
+SBCTRLはこの構成ではほぼ意味を持ちません。そもそもスイッチボード(交換台)機能を搭載していないので、接続コマンドが来たら接続、開放コマンドが来たら開放するだけなので、どことどこを繋ぐという機能は意味を持たないからです。ボード上のTALK LEDをパカパカする程度になら使えるかもです。もともとこのコマンドはデバッグ用ですし。
 
 現在の設定情報をNVM(不揮発メモリ)に保存する場合にはSAVE_SETTINGSコマンドを実行します。NVMに保存された情報は電源を切っても保持されるので、内線番号を変更した場合等にはNVM保存を行っておきましょう。
 
@@ -242,15 +257,11 @@ Port 2: Hung up. -> IDLE
 
 掘り下げた解説を少ししておきます。
 
-このPBXのコアプログラム部分は多回線にも対応可能なプログラムで、私のアナログPBX開発プロジェクトの一部分です。開発中のアナログPBXを簡易的に利用できるように2回線専用に対応させたものが本プロジェクトです。
+このPBXのコアプログラム部分はもともとは多回線にも対応可能なプログラムで、私のアナログPBX開発プロジェクトの一部分から2回線専用に軽量化を行ったものを使用しています。
 
-PBXのコア部分はハードウェアの制御からは切り離されており、ハードウェア制御を行う部分はhal_pbx.cで抽象化されています。
+PBXのコア部分はハードウェアの制御からは切り離されており、ハードウェア制御を行う部分はhal_pbx.cで抽象化されています。CID送出に関わる部分はhal_cid.cで記述しています。もっともCID送出機能等を入れたため、HALが綺麗に分離されているという理想の形からは少し離れてしまいました。
 
-ファイルのネーミングからも明らかなようにこれはHAL(Hardware Abstract Layer)です。ですので、SLICモジュールの制御はHALが行っています。PBXのコアとHALの間はAPI(HAL_PBXInitやHAL_SetTone)等で行っているため、私のプロジェクト内ではmain.c部分は使いまわせる、要するに同じプログラムが使えるようになっています。
-
-実際この2回線PBXを公開するにあたって対応を行ったのはhal.cの部分だけです。
-
-main.cのコメントに『I2C拡張ユニット』の記述がありますが、本プロジェクトでは意味を持ちません。アナログPBX開発プロジェクトで多回線をサポートする場合にI2Cで回線数を増やせるものがあるからです。これもまたHALで吸収を行っています。
+ファイルのネーミングからも明らかなようにこれはHAL(Hardware Abstract Layer)です。ですので、SLICモジュールの制御はHALが行っています。PBXのコアとHALの間はAPI(HAL_PBXInitやHAL_SetTone)等で行っています。
 
 ## Dev Help
 
