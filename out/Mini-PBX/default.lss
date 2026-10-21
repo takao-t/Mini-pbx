@@ -99,7 +99,7 @@ Idx Name                       Size     VMA      Type
  93 cstackCOMMON               0000000e 00000070 BSS
  94 cstackBANK0                0000004f 00000020 BSS
  95 cstackBANK1                00000050 000000a0 BSS
- 96 stringtext1                0000199c 00002800 DATA
+ 96 stringtext1                000019a0 00002800 DATA
  97 intentry                   00000092 00000004 TEXT
  98 end_init                   00000004 0000004d DATA
  99 cinit                      00000f64 0000004f TEXT
@@ -1532,7 +1532,7 @@ Disassembly of section text27:
      9cb: 81 00        	movwf	0x1
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:449
 ;                     printf("Port %d: Hung up. -> IDLE\r\n", ch + 1);
-     9cc: f9 30        	movlw	0xf9
+     9cc: fb 30        	movlw	0xfb
      9cd: 20 00        	movlb	0x0
      9ce: e1 00        	movwf	0x61
      9cf: b1 30        	movlw	0xb1
@@ -1681,7 +1681,7 @@ Disassembly of section text27:
      a50: 81 00        	movwf	0x1
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:467
 ;                     printf("Port %d: Off-Hook -> HOTLINE to ", ch + 1);
-     a51: 0f 30        	movlw	0xf
+     a51: 31 30        	movlw	0x31
      a52: 20 00        	movlb	0x0
      a53: e1 00        	movwf	0x61
      a54: b0 30        	movlw	0xb0
@@ -1703,7 +1703,7 @@ Disassembly of section text27:
      a62: 21 00        	movlb	0x1
      a63: b6 01        	clrf	0x36
      a64: 81 2a        	goto	0x281
-     a65: 9a 30        	movlw	0x9a
+     a65: 9c 30        	movlw	0x9c
      a66: 20 00        	movlb	0x0
      a67: e1 00        	movwf	0x61
      a68: b3 30        	movlw	0xb3
@@ -1792,7 +1792,7 @@ Disassembly of section text27:
      aaf: 81 00        	movwf	0x1
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:476
 ;                     printf("Port %d: Off-Hook -> DIALTONE\r\n", ch + 1);
-     ab0: 51 30        	movlw	0x51
+     ab0: 73 30        	movlw	0x73
      ab1: 20 00        	movlb	0x0
      ab2: e1 00        	movwf	0x61
      ab3: b0 30        	movlw	0xb0
@@ -2070,7 +2070,7 @@ Disassembly of section text27:
      ba5: c1 3f        	movwi	1[FSR1]
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:505
 ;                 printf("Port %d: Digit %d received\r\n", ch + 1, digit);
-     ba6: c0 30        	movlw	0xc0
+     ba6: c2 30        	movlw	0xc2
      ba7: e1 00        	movwf	0x61
      ba8: b1 30        	movlw	0xb1
      ba9: e2 00        	movwf	0x62
@@ -2502,7 +2502,7 @@ Disassembly of section text27:
      d17: ad 30        	movlw	0xad
      d18: 20 00        	movlb	0x0
      d19: e1 00        	movwf	0x61
-     d1a: 9a 30        	movlw	0x9a
+     d1a: 9c 30        	movlw	0x9c
      d1b: e2 00        	movwf	0x62
      d1c: b3 30        	movlw	0xb3
      d1d: e3 00        	movwf	0x63
@@ -2940,7 +2940,7 @@ Disassembly of section text27:
      e8b: f3 2f        	goto	0x7f3
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:614
 ;             printf("  Special #%d", line->special_number);
-     e8c: 8f 30        	movlw	0x8f
+     e8c: 91 30        	movlw	0x91
      e8d: e1 00        	movwf	0x61
      e8e: b3 30        	movlw	0xb3
      e8f: e2 00        	movwf	0x62
@@ -2978,10 +2978,10 @@ Disassembly of section text27:
      ead: af 2e        	goto	0x6af
      eae: d6 2e        	goto	0x6d6
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:616
-;                 printf(" Port %d CID spport set to ON\r\n",ch);
-     eaf: 71 30        	movlw	0x71
+;                 printf(" Port %d CID support set to ON\r\n",ch);
+     eaf: ef 30        	movlw	0xef
      eb0: e1 00        	movwf	0x61
-     eb1: b0 30        	movlw	0xb0
+     eb1: af 30        	movlw	0xaf
      eb2: e2 00        	movwf	0x62
      eb3: 21 00        	movlb	0x1
      eb4: 3f 08        	movf	0x3f, w
@@ -3044,8 +3044,8 @@ Disassembly of section text27:
      ee5: e7 2e        	goto	0x6e7
      ee6: 0d 2f        	goto	0x70d
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:621
-;                 printf(" Port %d CID spport set to OFF\r\n",ch);
-     ee7: cd 30        	movlw	0xcd
+;                 printf(" Port %d CID support set to OFF\r\n",ch);
+     ee7: ab 30        	movlw	0xab
      ee8: e1 00        	movwf	0x61
      ee9: af 30        	movlw	0xaf
      eea: e2 00        	movwf	0x62
@@ -3091,7 +3091,7 @@ Disassembly of section text27:
      f0c: 1c 2f        	goto	0x71c
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:626
 ;                 printf(" Unkown # \r\n");
-     f0d: 9d 30        	movlw	0x9d
+     f0d: 9f 30        	movlw	0x9f
      f0e: e1 00        	movwf	0x61
      f0f: b3 30        	movlw	0xb3
      f10: e2 00        	movwf	0x62
@@ -5304,7 +5304,7 @@ Disassembly of section text52:
     107e: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:679
 ;     printf("\r\n");
-    107f: a7 30        	movlw	0xa7
+    107f: a9 30        	movlw	0xa9
     1080: e1 00        	movwf	0x61
     1081: b4 30        	movlw	0xb4
     1082: e2 00        	movwf	0x62
@@ -5316,7 +5316,7 @@ Disassembly of section text52:
     1086: 20 00        	movlb	0x0
     1087: 6c 08        	movf	0x6c, w
     1088: a0 00        	movwf	0x20
-    1089: be 30        	movlw	0xbe
+    1089: c0 30        	movlw	0xc0
     108a: a1 00        	movwf	0x21
     108b: b4 30        	movlw	0xb4
     108c: a2 00        	movwf	0x22
@@ -5332,11 +5332,11 @@ Disassembly of section text52:
     1096: c9 29        	goto	0x1c9
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:681
 ;         printf("** MINI-PBX Core Ver. %s\r\n",version_string);
-    1097: 4c 30        	movlw	0x4c
+    1097: 4e 30        	movlw	0x4e
     1098: e1 00        	movwf	0x61
     1099: b2 30        	movlw	0xb2
     109a: e2 00        	movwf	0x62
-    109b: 64 30        	movlw	0x64
+    109b: 66 30        	movlw	0x66
     109c: e3 00        	movwf	0x63
     109d: b3 30        	movlw	0xb3
     109e: e4 00        	movwf	0x64
@@ -5345,7 +5345,7 @@ Disassembly of section text52:
     10a1: 90 31        	movlp	0x10
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:682
 ;         printf("--- Line Status -------\r\n");
-    10a2: 67 30        	movlw	0x67
+    10a2: 69 30        	movlw	0x69
     10a3: 20 00        	movlb	0x0
     10a4: e1 00        	movwf	0x61
     10a5: b2 30        	movlw	0xb2
@@ -5360,7 +5360,7 @@ Disassembly of section text52:
     10ac: ba 29        	goto	0x1ba
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:684
 ;             printf("Port %d [Ext:%u] (SLIC) : %-8s", 
-    10ad: ef 30        	movlw	0xef
+    10ad: f1 30        	movlw	0xf1
     10ae: 20 00        	movlb	0x0
     10af: e1 00        	movwf	0x61
     10b0: b0 30        	movlw	0xb0
@@ -5434,7 +5434,7 @@ Disassembly of section text52:
     10f2: 0e 29        	goto	0x10e
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:690
 ;                 printf(" (Target: Port %d)", lines[i].target_port + 1);
-    10f3: 40 30        	movlw	0x40
+    10f3: 42 30        	movlw	0x42
     10f4: 20 00        	movlb	0x0
     10f5: e1 00        	movwf	0x61
     10f6: b3 30        	movlw	0xb3
@@ -5480,18 +5480,18 @@ Disassembly of section text52:
     111c: 1e 29        	goto	0x11e
     111d: 1f 29        	goto	0x11f
     111e: 25 29        	goto	0x125
-    111f: 9f 30        	movlw	0x9f
+    111f: a1 30        	movlw	0xa1
     1120: 22 00        	movlb	0x2
     1121: cc 00        	movwf	0x4c
     1122: b4 30        	movlw	0xb4
     1123: cd 00        	movwf	0x4d
     1124: 2a 29        	goto	0x12a
-    1125: 92 30        	movlw	0x92
+    1125: 94 30        	movlw	0x94
     1126: 22 00        	movlb	0x2
     1127: cc 00        	movwf	0x4c
     1128: b4 30        	movlw	0xb4
     1129: cd 00        	movwf	0x4d
-    112a: d9 30        	movlw	0xd9
+    112a: db 30        	movlw	0xdb
     112b: 20 00        	movlb	0x0
     112c: e1 00        	movwf	0x61
     112d: b3 30        	movlw	0xb3
@@ -5528,7 +5528,7 @@ Disassembly of section text52:
     114a: 8d 29        	goto	0x18d
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:697
 ;                 printf("  | Hotline:");           
-    114b: aa 30        	movlw	0xaa
+    114b: ac 30        	movlw	0xac
     114c: 20 00        	movlb	0x0
     114d: e1 00        	movwf	0x61
     114e: b3 30        	movlw	0xb3
@@ -5543,7 +5543,7 @@ Disassembly of section text52:
     1155: 7a 29        	goto	0x17a
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:699
 ;                     printf("%d", port_configs[i].hotline_num[d]);
-    1156: 9a 30        	movlw	0x9a
+    1156: 9c 30        	movlw	0x9c
     1157: 20 00        	movlb	0x0
     1158: e1 00        	movwf	0x61
     1159: b3 30        	movlw	0xb3
@@ -5621,7 +5621,7 @@ Disassembly of section text52:
     119d: a7 29        	goto	0x1a7
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:703
 ;                 printf(" | CID:ON");
-    119e: e4 30        	movlw	0xe4
+    119e: e6 30        	movlw	0xe6
     119f: 20 00        	movlb	0x0
     11a0: e1 00        	movwf	0x61
     11a1: b3 30        	movlw	0xb3
@@ -5634,7 +5634,7 @@ Disassembly of section text52:
     11a6: af 29        	goto	0x1af
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:705
 ;                 printf(" | CID:OFF");
-    11a7: ce 30        	movlw	0xce
+    11a7: d0 30        	movlw	0xd0
     11a8: 20 00        	movlb	0x0
     11a9: e1 00        	movwf	0x61
     11aa: b3 30        	movlw	0xb3
@@ -5644,7 +5644,7 @@ Disassembly of section text52:
     11ae: 90 31        	movlp	0x10
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:707
 ;             printf("\r\n");
-    11af: a7 30        	movlw	0xa7
+    11af: a9 30        	movlw	0xa9
     11b0: 20 00        	movlb	0x0
     11b1: e1 00        	movwf	0x61
     11b2: b4 30        	movlw	0xb4
@@ -5665,7 +5665,7 @@ Disassembly of section text52:
     11bf: ad 28        	goto	0xad
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:709
 ;         printf("-----------------------\r\n");
-    11c0: 81 30        	movlw	0x81
+    11c0: 83 30        	movlw	0x83
     11c1: 20 00        	movlb	0x0
     11c2: e1 00        	movwf	0x61
     11c3: b2 30        	movlw	0xb2
@@ -5680,7 +5680,7 @@ Disassembly of section text52:
 ;     else if (strncmp(str, "SET EXT ", 8) == 0) {
     11c9: 6c 08        	movf	0x6c, w
     11ca: a0 00        	movwf	0x20
-    11cb: 0b 30        	movlw	0xb
+    11cb: 0d 30        	movlw	0xd
     11cc: a1 00        	movwf	0x21
     11cd: b4 30        	movlw	0xb4
     11ce: a2 00        	movwf	0x22
@@ -5884,7 +5884,7 @@ Disassembly of section text52:
     127c: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:727
 ;                 printf("Error: Invalid format.\r\n");
-    127d: b5 30        	movlw	0xb5
+    127d: b7 30        	movlw	0xb7
     127e: 20 00        	movlb	0x0
     127f: e1 00        	movwf	0x61
     1280: b2 30        	movlw	0xb2
@@ -5916,7 +5916,7 @@ Disassembly of section text52:
     1298: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:731
 ;             printf("Error: Invalid format.\r\n");
-    1299: b5 30        	movlw	0xb5
+    1299: b7 30        	movlw	0xb7
     129a: 20 00        	movlb	0x0
     129b: e1 00        	movwf	0x61
     129c: b2 30        	movlw	0xb2
@@ -5950,7 +5950,7 @@ Disassembly of section text52:
 ;     else if (strncmp(str, "SET AA ", 7) == 0) {
     12b5: 6c 08        	movf	0x6c, w
     12b6: a0 00        	movwf	0x20
-    12b7: 26 30        	movlw	0x26
+    12b7: 28 30        	movlw	0x28
     12b8: a1 00        	movwf	0x21
     12b9: b4 30        	movlw	0xb4
     12ba: a2 00        	movwf	0x22
@@ -5988,7 +5988,7 @@ Disassembly of section text52:
     12d4: 6c 08        	movf	0x6c, w
     12d5: 09 3e        	addlw	0x9, w
     12d6: a0 00        	movwf	0x20
-    12d7: eb 30        	movlw	0xeb
+    12d7: ed 30        	movlw	0xed
     12d8: a1 00        	movwf	0x21
     12d9: b3 30        	movlw	0xb3
     12da: a2 00        	movwf	0x22
@@ -6019,7 +6019,7 @@ Disassembly of section text52:
     12ed: 6c 08        	movf	0x6c, w
     12ee: 09 3e        	addlw	0x9, w
     12ef: a0 00        	movwf	0x20
-    12f0: d5 30        	movlw	0xd5
+    12f0: d7 30        	movlw	0xd7
     12f1: a1 00        	movwf	0x21
     12f2: b3 30        	movlw	0xb3
     12f3: a2 00        	movwf	0x22
@@ -6146,7 +6146,7 @@ Disassembly of section text52:
     135a: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:755
 ;             printf("Error: Invalid format.\r\n");
-    135b: b5 30        	movlw	0xb5
+    135b: b7 30        	movlw	0xb7
     135c: 20 00        	movlb	0x0
     135d: e1 00        	movwf	0x61
     135e: b2 30        	movlw	0xb2
@@ -6180,7 +6180,7 @@ Disassembly of section text52:
 ;     else if (strcmp(str, "DO_FULL_RESET") == 0) {
     1377: 6c 08        	movf	0x6c, w
     1378: a0 00        	movwf	0x20
-    1379: 81 30        	movlw	0x81
+    1379: 83 30        	movlw	0x83
     137a: a1 00        	movwf	0x21
     137b: b3 30        	movlw	0xb3
     137c: a2 00        	movwf	0x22
@@ -6196,9 +6196,9 @@ Disassembly of section text52:
     1386: 9c 2b        	goto	0x39c
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:760
 ;         printf("Resetting PBXCore...\r\n");
-    1387: fe 30        	movlw	0xfe
+    1387: 00 30        	movlw	0x0
     1388: e1 00        	movwf	0x61
-    1389: b2 30        	movlw	0xb2
+    1389: b3 30        	movlw	0xb3
     138a: e2 00        	movwf	0x62
     138b: a1 31        	movlp	0x21
     138c: c8 21        	call	0x1c8
@@ -6227,7 +6227,7 @@ Disassembly of section text52:
 ;     else if (strncmp(str, "SBCTL ", 6) == 0) {
     139c: 6c 08        	movf	0x6c, w
     139d: a0 00        	movwf	0x20
-    139e: 8b 30        	movlw	0x8b
+    139e: 8d 30        	movlw	0x8d
     139f: a1 00        	movwf	0x21
     13a0: b4 30        	movlw	0xb4
     13a1: a2 00        	movwf	0x22
@@ -6250,7 +6250,7 @@ Disassembly of section text52:
     13b0: 6c 08        	movf	0x6c, w
     13b1: 06 3e        	addlw	0x6, w
     13b2: a0 00        	movwf	0x20
-    13b3: af 30        	movlw	0xaf
+    13b3: b1 30        	movlw	0xb1
     13b4: a1 00        	movwf	0x21
     13b5: b4 30        	movlw	0xb4
     13b6: a2 00        	movwf	0x22
@@ -6307,7 +6307,7 @@ Disassembly of section text52:
     13e3: 3a 2c        	goto	0x43a
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:769
 ;             printf("Connect Switch: %d-%d %d-%d\r\n",line1, line2, line2, line1);
-    13e4: 4a 30        	movlw	0x4a
+    13e4: 4c 30        	movlw	0x4c
     13e5: e1 00        	movwf	0x61
     13e6: b1 30        	movlw	0xb1
     13e7: e2 00        	movwf	0x62
@@ -6401,7 +6401,7 @@ Disassembly of section text52:
     1439: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:773
 ;                 printf("Error: Invalid arguments.\r\n");
-    143a: dd 30        	movlw	0xdd
+    143a: df 30        	movlw	0xdf
     143b: e1 00        	movwf	0x61
     143c: b1 30        	movlw	0xb1
     143d: e2 00        	movwf	0x62
@@ -6435,7 +6435,7 @@ Disassembly of section text52:
     1455: 6c 08        	movf	0x6c, w
     1456: 06 3e        	addlw	0x6, w
     1457: a0 00        	movwf	0x20
-    1458: aa 30        	movlw	0xaa
+    1458: ac 30        	movlw	0xac
     1459: a1 00        	movwf	0x21
     145a: b4 30        	movlw	0xb4
     145b: a2 00        	movwf	0x22
@@ -6492,7 +6492,7 @@ Disassembly of section text52:
     1488: df 2c        	goto	0x4df
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:781
 ;                 printf("Release Switch: %d-%d %d-%d\r\n",line1, line2, line2, line1);
-    1489: 2c 30        	movlw	0x2c
+    1489: 2e 30        	movlw	0x2e
     148a: e1 00        	movwf	0x61
     148b: b1 30        	movlw	0xb1
     148c: e2 00        	movwf	0x62
@@ -6586,7 +6586,7 @@ Disassembly of section text52:
     14de: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:785
 ;                 printf("Error: Invalid arguments.\r\n");
-    14df: dd 30        	movlw	0xdd
+    14df: df 30        	movlw	0xdf
     14e0: e1 00        	movwf	0x61
     14e1: b1 30        	movlw	0xb1
     14e2: e2 00        	movwf	0x62
@@ -6620,7 +6620,7 @@ Disassembly of section text52:
     14fa: 6c 08        	movf	0x6c, w
     14fb: 06 3e        	addlw	0x6, w
     14fc: a0 00        	movwf	0x20
-    14fd: 84 30        	movlw	0x84
+    14fd: 86 30        	movlw	0x86
     14fe: a1 00        	movwf	0x21
     14ff: b3 30        	movlw	0xb3
     1500: a2 00        	movwf	0x22
@@ -6664,7 +6664,7 @@ Disassembly of section text52:
     151e: 90 31        	movlp	0x10
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:795
 ;             printf("Available: CON, REL, FULL_RESET\r\n");
-    151f: ab 30        	movlw	0xab
+    151f: cd 30        	movlw	0xcd
     1520: 20 00        	movlb	0x0
     1521: e1 00        	movwf	0x61
     1522: af 30        	movlw	0xaf
@@ -6677,7 +6677,7 @@ Disassembly of section text52:
 ;     else if (strncmp(str, "SET HL ", 7) == 0) {
     1528: 6c 08        	movf	0x6c, w
     1529: a0 00        	movwf	0x20
-    152a: 2e 30        	movlw	0x2e
+    152a: 30 30        	movlw	0x30
     152b: a1 00        	movwf	0x21
     152c: b4 30        	movlw	0xb4
     152d: a2 00        	movwf	0x22
@@ -6731,7 +6731,7 @@ Disassembly of section text52:
     1557: 6c 08        	movf	0x6c, w
     1558: 09 3e        	addlw	0x9, w
     1559: a0 00        	movwf	0x20
-    155a: d5 30        	movlw	0xd5
+    155a: d7 30        	movlw	0xd7
     155b: a1 00        	movwf	0x21
     155c: b3 30        	movlw	0xb3
     155d: a2 00        	movwf	0x22
@@ -6893,7 +6893,7 @@ Disassembly of section text52:
     15e5: 81 00        	movwf	0x1
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:815
 ;                     printf("Success: Port %d hotline set to ", port + 1);
-    15e6: 30 30        	movlw	0x30
+    15e6: 52 30        	movlw	0x52
     15e7: 20 00        	movlb	0x0
     15e8: e1 00        	movwf	0x61
     15e9: b0 30        	movlw	0xb0
@@ -6915,7 +6915,7 @@ Disassembly of section text52:
     15f7: 22 00        	movlb	0x2
     15f8: cf 01        	clrf	0x4f
     15f9: 1e 2e        	goto	0x61e
-    15fa: 9a 30        	movlw	0x9a
+    15fa: 9c 30        	movlw	0x9c
     15fb: 20 00        	movlb	0x0
     15fc: e1 00        	movwf	0x61
     15fd: b3 30        	movlw	0xb3
@@ -6959,7 +6959,7 @@ Disassembly of section text52:
     1623: fa 2d        	goto	0x5fa
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:817
 ;                     printf("\r\n");
-    1624: a7 30        	movlw	0xa7
+    1624: a9 30        	movlw	0xa9
     1625: 20 00        	movlb	0x0
     1626: e1 00        	movwf	0x61
     1627: b4 30        	movlw	0xb4
@@ -6972,7 +6972,7 @@ Disassembly of section text52:
     162c: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:819
 ;                     printf("Error: Invalid hotline number\r\n");
-    162d: 91 30        	movlw	0x91
+    162d: 93 30        	movlw	0x93
     162e: 20 00        	movlb	0x0
     162f: e1 00        	movwf	0x61
     1630: b0 30        	movlw	0xb0
@@ -7007,7 +7007,7 @@ Disassembly of section text52:
 ;     else if (strncmp(str, "SET CID ", 8) == 0) { //ナンバーディスプレイ対応設定
     164a: 6c 08        	movf	0x6c, w
     164b: a0 00        	movwf	0x20
-    164c: 02 30        	movlw	0x2
+    164c: 04 30        	movlw	0x4
     164d: a1 00        	movwf	0x21
     164e: b4 30        	movlw	0xb4
     164f: a2 00        	movwf	0x22
@@ -7061,7 +7061,7 @@ Disassembly of section text52:
     1679: 6c 08        	movf	0x6c, w
     167a: 0a 3e        	addlw	0xa, w
     167b: a0 00        	movwf	0x20
-    167c: eb 30        	movlw	0xeb
+    167c: ed 30        	movlw	0xed
     167d: a1 00        	movwf	0x21
     167e: b3 30        	movlw	0xb3
     167f: a2 00        	movwf	0x22
@@ -7119,7 +7119,7 @@ Disassembly of section text52:
     16ad: 6c 08        	movf	0x6c, w
     16ae: 0a 3e        	addlw	0xa, w
     16af: a0 00        	movwf	0x20
-    16b0: d5 30        	movlw	0xd5
+    16b0: d7 30        	movlw	0xd7
     16b1: a1 00        	movwf	0x21
     16b2: b3 30        	movlw	0xb3
     16b3: a2 00        	movwf	0x22
@@ -7199,7 +7199,7 @@ Disassembly of section text52:
 ;     else if(strcmp(str, "SAVE_SETTINGS") == 0){ 
     16f4: 6c 08        	movf	0x6c, w
     16f5: a0 00        	movwf	0x20
-    16f6: 73 30        	movlw	0x73
+    16f6: 75 30        	movlw	0x75
     16f7: a1 00        	movwf	0x21
     16f8: b3 30        	movlw	0xb3
     16f9: a2 00        	movwf	0x22
@@ -7235,7 +7235,7 @@ Disassembly of section text52:
 ;     else if(strcmp(str, "HELP") == 0 || strcmp(str, "?") == 0){ 
     1710: 6c 08        	movf	0x6c, w
     1711: a0 00        	movwf	0x20
-    1712: b9 30        	movlw	0xb9
+    1712: bb 30        	movlw	0xbb
     1713: a1 00        	movwf	0x21
     1714: b4 30        	movlw	0xb4
     1715: a2 00        	movwf	0x22
@@ -7251,7 +7251,7 @@ Disassembly of section text52:
     171f: 30 2f        	goto	0x730
     1720: 6c 08        	movf	0x6c, w
     1721: a0 00        	movwf	0x20
-    1722: cc 30        	movlw	0xcc
+    1722: ce 30        	movlw	0xce
     1723: a1 00        	movwf	0x21
     1724: b4 30        	movlw	0xb4
     1725: a2 00        	movwf	0x22
@@ -7267,7 +7267,7 @@ Disassembly of section text52:
     172f: f4 2f        	goto	0x7f4
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:848
 ;         printf("---Commands---\r\n");
-    1730: 53 30        	movlw	0x53
+    1730: 55 30        	movlw	0x55
     1731: e1 00        	movwf	0x61
     1732: b3 30        	movlw	0xb3
     1733: e2 00        	movwf	0x62
@@ -7460,7 +7460,7 @@ Disassembly of section text52:
     17d2: 90 31        	movlp	0x10
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:863
 ;         printf("\r\n");
-    17d3: a7 30        	movlw	0xa7
+    17d3: a9 30        	movlw	0xa9
     17d4: 20 00        	movlb	0x0
     17d5: e1 00        	movwf	0x61
     17d6: b4 30        	movlw	0xb4
@@ -7490,7 +7490,7 @@ Disassembly of section text52:
     17ea: 90 31        	movlp	0x10
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:866
 ;         printf("--------------\r\n");
-    17eb: 8a 30        	movlw	0x8a
+    17eb: 8c 30        	movlw	0x8c
     17ec: 20 00        	movlb	0x0
     17ed: e1 00        	movwf	0x61
     17ee: b2 30        	movlw	0xb2
@@ -7503,7 +7503,7 @@ Disassembly of section text52:
     17f3: ff 2f        	goto	0x7ff
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:870
 ;         printf("Unknown Command: %s\r\n", str);
-    17f4: 15 30        	movlw	0x15
+    17f4: 17 30        	movlw	0x17
     17f5: e1 00        	movwf	0x61
     17f6: b3 30        	movlw	0xb3
     17f7: e2 00        	movwf	0x62
@@ -7718,84 +7718,84 @@ Disassembly of section text56:
     1a9d: da 2a        	goto	0x2da
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:200
 ;         case STATE_IDLE:     return "IDLE";
-    1a9e: b4 30        	movlw	0xb4
+    1a9e: b6 30        	movlw	0xb6
     1a9f: a3 00        	movwf	0x23
     1aa0: b4 30        	movlw	0xb4
     1aa1: a4 00        	movwf	0x24
     1aa2: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:201
 ;         case STATE_DIALTONE: return "DIALTONE";
-    1aa3: 1d 30        	movlw	0x1d
+    1aa3: 1f 30        	movlw	0x1f
     1aa4: a3 00        	movwf	0x23
     1aa5: b4 30        	movlw	0xb4
     1aa6: a4 00        	movwf	0x24
     1aa7: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:202
 ;         case STATE_DIALING:  return "DIALING";
-    1aa8: 46 30        	movlw	0x46
+    1aa8: 48 30        	movlw	0x48
     1aa9: a3 00        	movwf	0x23
     1aaa: b4 30        	movlw	0xb4
     1aab: a4 00        	movwf	0x24
     1aac: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:203
 ;         case STATE_ROUTING:  return "ROUTING";
-    1aad: 56 30        	movlw	0x56
+    1aad: 58 30        	movlw	0x58
     1aae: a3 00        	movwf	0x23
     1aaf: b4 30        	movlw	0xb4
     1ab0: a4 00        	movwf	0x24
     1ab1: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:204
 ;         case STATE_CALLING:  return "CALLING";
-    1ab2: 4e 30        	movlw	0x4e
+    1ab2: 50 30        	movlw	0x50
     1ab3: a3 00        	movwf	0x23
     1ab4: b4 30        	movlw	0xb4
     1ab5: a4 00        	movwf	0x24
     1ab6: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:205
 ;         case STATE_RINGING:  return "RINGING";
-    1ab7: 36 30        	movlw	0x36
+    1ab7: 38 30        	movlw	0x38
     1ab8: a3 00        	movwf	0x23
     1ab9: b4 30        	movlw	0xb4
     1aba: a4 00        	movwf	0x24
     1abb: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:206
 ;         case STATE_TALKING:  return "TALKING";
-    1abc: 3e 30        	movlw	0x3e
+    1abc: 40 30        	movlw	0x40
     1abd: a3 00        	movwf	0x23
     1abe: b4 30        	movlw	0xb4
     1abf: a4 00        	movwf	0x24
     1ac0: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:207
 ;         case STATE_BUSY:     return "BUSY";
-    1ac1: c3 30        	movlw	0xc3
+    1ac1: c5 30        	movlw	0xc5
     1ac2: a3 00        	movwf	0x23
     1ac3: b4 30        	movlw	0xb4
     1ac4: a4 00        	movwf	0x24
     1ac5: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:208
 ;         case STATE_UNAVAIL:  return "UNAVAIL";
-    1ac6: 5e 30        	movlw	0x5e
+    1ac6: 60 30        	movlw	0x60
     1ac7: a3 00        	movwf	0x23
     1ac8: b4 30        	movlw	0xb4
     1ac9: a4 00        	movwf	0x24
     1aca: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:209
 ;         case STATE_AUTOANS:  return "AUTOANS";
-    1acb: 6e 30        	movlw	0x6e
+    1acb: 70 30        	movlw	0x70
     1acc: a3 00        	movwf	0x23
     1acd: b4 30        	movlw	0xb4
     1ace: a4 00        	movwf	0x24
     1acf: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:210
 ;         case STATE_SP_NUMBER: return "SPECIAL_N";
-    1ad0: ee 30        	movlw	0xee
+    1ad0: f0 30        	movlw	0xf0
     1ad1: a3 00        	movwf	0x23
     1ad2: b3 30        	movlw	0xb3
     1ad3: a4 00        	movwf	0x24
     1ad4: 05 2b        	goto	0x305
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:211
 ;         default:             return "UNKNOWN";
-    1ad5: 66 30        	movlw	0x66
+    1ad5: 68 30        	movlw	0x68
     1ad6: a3 00        	movwf	0x23
     1ad7: b4 30        	movlw	0xb4
     1ad8: a4 00        	movwf	0x24
@@ -8115,7 +8115,7 @@ Disassembly of section text58:
     1ff6: 9f 31        	movlp	0x1f
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:191
 ;         printf("PBXCore: Storage initialized\r\n");
-    1ff7: b1 30        	movlw	0xb1
+    1ff7: b3 30        	movlw	0xb3
     1ff8: 20 00        	movlb	0x0
     1ff9: e1 00        	movwf	0x61
     1ffa: b0 30        	movlw	0xb0
@@ -8701,7 +8701,7 @@ Disassembly of section text66:
     1d1e: 23 2d        	goto	0x523
 ; c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common/doprnt.c:953
 ;         cp = "(null)";
-    1d1f: 76 30        	movlw	0x76
+    1d1f: 78 30        	movlw	0x78
     1d20: b6 00        	movwf	0x36
     1d21: b4 30        	movlw	0xb4
     1d22: b7 00        	movwf	0x37
@@ -11091,7 +11091,7 @@ Disassembly of section cinit:
       d0: 0b 17        	bsf	0xb, 0x6
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:264
 ;     printf("\r\n\r\n");
-      d1: a5 30        	movlw	0xa5
+      d1: a7 30        	movlw	0xa7
       d2: 20 00        	movlb	0x0
       d3: e1 00        	movwf	0x61
       d4: b4 30        	movlw	0xb4
@@ -11101,12 +11101,12 @@ Disassembly of section cinit:
       d8: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:265
 ;     printf("MINI-PBXCore: Starting (%s)\r\n",version_string);
-      d9: 0e 30        	movlw	0xe
+      d9: 10 30        	movlw	0x10
       da: 20 00        	movlb	0x0
       db: e1 00        	movwf	0x61
       dc: b1 30        	movlw	0xb1
       dd: e2 00        	movwf	0x62
-      de: 64 30        	movlw	0x64
+      de: 66 30        	movlw	0x66
       df: e3 00        	movwf	0x63
 ; SaveSettings@total_bytes():
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:265
@@ -11123,7 +11123,7 @@ Disassembly of section cinit:
       e4: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:266
 ;     printf(" PIC DeviceID: %x(%x)\r\n",device_id,revision_id);
-      e5: ce 30        	movlw	0xce
+      e5: d0 30        	movlw	0xd0
 ; SaveSettings@i():
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:266
       e6: 20 00        	movlb	0x0
@@ -11161,16 +11161,16 @@ Disassembly of section cinit:
       fc: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:267
 ;     printf(" Built at: %s %s (XC8 v%d)\r\n", __DATE__, __TIME__, COMPILER_VER);
-      fd: 86 30        	movlw	0x86
+      fd: 88 30        	movlw	0x88
       fe: 20 00        	movlb	0x0
       ff: e1 00        	movwf	0x61
      100: b1 30        	movlw	0xb1
      101: e2 00        	movwf	0x62
-     102: b7 30        	movlw	0xb7
+     102: b9 30        	movlw	0xb9
      103: e3 00        	movwf	0x63
      104: b3 30        	movlw	0xb3
      105: e4 00        	movwf	0x64
-     106: 14 30        	movlw	0x14
+     106: 16 30        	movlw	0x16
      107: e5 00        	movwf	0x65
      108: b4 30        	movlw	0xb4
      109: e6 00        	movwf	0x66
@@ -11183,7 +11183,7 @@ Disassembly of section cinit:
      110: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:268
 ;     printf(" Flash Size: %u Words\r\n", PROGMEM_SIZE);
-     111: e6 30        	movlw	0xe6
+     111: e8 30        	movlw	0xe8
      112: 20 00        	movlb	0x0
      113: e1 00        	movwf	0x61
      114: b2 30        	movlw	0xb2
@@ -11197,7 +11197,7 @@ Disassembly of section cinit:
      11c: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:272
 ;     printf(" Storage start address = %0x\r\n",tmp_st_addr);
-     11d: d0 30        	movlw	0xd0
+     11d: d2 30        	movlw	0xd2
      11e: 20 00        	movlb	0x0
      11f: e1 00        	movwf	0x61
 ; __pbssBANK2():
@@ -11221,7 +11221,7 @@ Disassembly of section cinit:
      128: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:273
 ;     printf(" Storage size %d words.\r\n",tmp_st_size);
-     129: 9b 30        	movlw	0x9b
+     129: 9d 30        	movlw	0x9d
 ; _eusartRxLastError():
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:273
      12a: 20 00        	movlb	0x0
@@ -11266,7 +11266,7 @@ Disassembly of section cinit:
      13c: ea 00        	movwf	0x6a
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:277
 ;     printf("PBXCore: Active LINES: %d\r\n", current_max_lines);
-     13d: 15 30        	movlw	0x15
+     13d: 17 30        	movlw	0x17
 ; _CLC1_Callback():
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:277
      13e: 20 00        	movlb	0x0
@@ -11385,7 +11385,7 @@ Disassembly of section cinit:
      168: 63 29        	goto	0x163
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:283
 ;     printf("done.\r\n");
-     169: c6 30        	movlw	0xc6
+     169: c8 30        	movlw	0xc8
 ; _current_max_lines():
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:283
      16a: 20 00        	movlb	0x0
@@ -11399,7 +11399,7 @@ Disassembly of section cinit:
      170: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:285
 ;     printf("PBXCore: Testing Switch.\r\n");
-     171: 31 30        	movlw	0x31
+     171: 33 30        	movlw	0x33
      172: 20 00        	movlb	0x0
      173: e1 00        	movwf	0x61
      174: b2 30        	movlw	0xb2
@@ -11436,7 +11436,7 @@ Disassembly of section cinit:
      18d: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:290
 ;     printf("PBXCore: Resetting All States");
-     18e: 68 30        	movlw	0x68
+     18e: 6a 30        	movlw	0x6a
      18f: 20 00        	movlb	0x0
      190: e1 00        	movwf	0x61
      191: b1 30        	movlw	0xb1
@@ -11663,7 +11663,7 @@ Disassembly of section cinit:
      248: 43 2a        	goto	0x243
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:304
 ;     printf(" - done.\r\n");
-     249: c3 30        	movlw	0xc3
+     249: c5 30        	movlw	0xc5
      24a: 20 00        	movlb	0x0
      24b: e1 00        	movwf	0x61
      24c: b3 30        	movlw	0xb3
@@ -11675,10 +11675,10 @@ Disassembly of section cinit:
      250: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:306
 ;     printf("PBXCore: Checking LINE modules\r\n");
-     251: ee 30        	movlw	0xee
+     251: 10 30        	movlw	0x10
      252: 20 00        	movlb	0x0
      253: e1 00        	movwf	0x61
-     254: af 30        	movlw	0xaf
+     254: b0 30        	movlw	0xb0
      255: e2 00        	movwf	0x62
      256: a1 31        	movlp	0x21
      257: c8 21        	call	0x1c8
@@ -11690,7 +11690,7 @@ Disassembly of section cinit:
      25b: a0 2a        	goto	0x2a0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:308
 ;         printf(" Port %2d", i + 1);
-     25c: f8 30        	movlw	0xf8
+     25c: fa 30        	movlw	0xfa
      25d: 20 00        	movlb	0x0
      25e: e1 00        	movwf	0x61
      25f: b3 30        	movlw	0xb3
@@ -11728,7 +11728,7 @@ Disassembly of section cinit:
      27d: 87 2a        	goto	0x287
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:310
 ;             printf("- OK\r\n");
-     27e: 84 30        	movlw	0x84
+     27e: 86 30        	movlw	0x86
      27f: 20 00        	movlb	0x0
      280: e1 00        	movwf	0x61
      281: b4 30        	movlw	0xb4
@@ -11757,7 +11757,7 @@ Disassembly of section cinit:
      294: 81 00        	movwf	0x1
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:314
 ;             printf("- NG\r\n");
-     295: 7d 30        	movlw	0x7d
+     295: 7f 30        	movlw	0x7f
      296: 20 00        	movlb	0x0
      297: e1 00        	movwf	0x61
      298: b4 30        	movlw	0xb4
@@ -11800,7 +11800,7 @@ Disassembly of section cinit:
      2b3: d8 2a        	goto	0x2d8
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:322
 ;         printf(" Port %2d : Ext %d\r\n", i + 1, port_configs[i].extension);
-     2b4: 2b 30        	movlw	0x2b
+     2b4: 2d 30        	movlw	0x2d
      2b5: 20 00        	movlb	0x0
      2b6: e1 00        	movwf	0x61
      2b7: b3 30        	movlw	0xb3
@@ -11846,7 +11846,7 @@ Disassembly of section cinit:
      2dd: b4 2a        	goto	0x2b4
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:325
 ;     printf("\r\n");
-     2de: a7 30        	movlw	0xa7
+     2de: a9 30        	movlw	0xa9
      2df: 20 00        	movlb	0x0
      2e0: e1 00        	movwf	0x61
      2e1: b4 30        	movlw	0xb4
@@ -11856,7 +11856,7 @@ Disassembly of section cinit:
      2e5: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:326
 ;     printf("PBXCore: === PBX Ready ===\r\n");
-     2e6: a3 30        	movlw	0xa3
+     2e6: a5 30        	movlw	0xa5
      2e7: 20 00        	movlb	0x0
      2e8: e1 00        	movwf	0x61
      2e9: b1 30        	movlw	0xb1
@@ -12013,7 +12013,7 @@ Disassembly of section cinit:
      352: 5e 2b        	goto	0x35e
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:362
 ;                         printf("\b \b");
-     353: c8 30        	movlw	0xc8
+     353: ca 30        	movlw	0xca
      354: 20 00        	movlb	0x0
      355: e1 00        	movwf	0x61
      356: b4 30        	movlw	0xb4
@@ -12058,7 +12058,7 @@ Disassembly of section cinit:
      377: c2 00        	movwf	0x42
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:366
 ;                     printf("%s", rxBuffer);
-     378: e1 30        	movlw	0xe1
+     378: e3 30        	movlw	0xe3
      379: 20 00        	movlb	0x0
      37a: e1 00        	movwf	0x61
      37b: b3 30        	movlw	0xb3
@@ -12130,7 +12130,7 @@ Disassembly of section cinit:
      3af: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:381
 ;                 printf("\r\n");
-     3b0: a7 30        	movlw	0xa7
+     3b0: a9 30        	movlw	0xa9
      3b1: 20 00        	movlb	0x0
      3b2: e1 00        	movwf	0x61
      3b3: b4 30        	movlw	0xb4
@@ -12140,7 +12140,7 @@ Disassembly of section cinit:
      3b7: 80 31        	movlp	0x0
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:382
 ;                 printf("PBX> ");
-     3b8: 99 30        	movlw	0x99
+     3b8: 9b 30        	movlw	0x9b
      3b9: 20 00        	movlb	0x0
      3ba: e1 00        	movwf	0x61
      3bb: b4 30        	movlw	0xb4
@@ -12182,7 +12182,7 @@ Disassembly of section cinit:
      3d5: c2 02        	subwf	0x42, f
 ; C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc/main.c:389
 ;                         printf("\b \b"); 
-     3d6: c8 30        	movlw	0xc8
+     3d6: ca 30        	movlw	0xca
      3d7: 20 00        	movlb	0x0
      3d8: e1 00        	movwf	0x61
      3d9: b4 30        	movlw	0xb4

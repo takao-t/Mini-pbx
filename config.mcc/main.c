@@ -613,12 +613,12 @@ void ProcessStateMachine(uint8_t ch) {
         case STATE_SP_NUMBER: // 特番処理開始 (800Hz ON)
             printf("  Special #%d", line->special_number);
             if(line->special_number == 24371){
-                printf(" Port %d CID spport set to ON\r\n",ch);
+                printf(" Port %d CID support set to ON\r\n",ch);
                 port_configs[ch].caller_id_enabled = 1;
                 line->indication_tones = 1;
             }
             else if(line->special_number == 24370){
-                printf(" Port %d CID spport set to OFF\r\n",ch);
+                printf(" Port %d CID support set to OFF\r\n",ch);
                 port_configs[ch].caller_id_enabled = 0;
                 line->indication_tones = 2;
             }
