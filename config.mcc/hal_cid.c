@@ -273,7 +273,12 @@ bool Send_NTT_CallerID(uint8_t line, char *num_str){
 
     //CAR信号の送出がOKならCID送出
     if(Send_NTT_CAR(line) == true){
+
+        // モデムタイミング維持のためモデム送出中は割り込み禁止
+        INTERRUPT_GlobalInterruptDisable();
         SendMinimalCallerID_OnTheFly(num_str);
+        INTERRUPT_GlobalInterruptEnable();
+
         // 送出完了待ち(max 7秒)
         // 端末で受信が完了するとオンフックするのでそれを待つ
         for(uint8_t i=0; i<70; i++){

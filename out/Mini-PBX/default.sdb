@@ -10,8 +10,8 @@ TONE_DIAL 1
 TONE_RINGBACK 2
 TONE_BUSY 3
 ]
-"100 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
-[e E7075 . `uc
+"104 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+[e E7077 . `uc
 STATE_IDLE 0
 STATE_DIALTONE 1
 STATE_DIALING 2
@@ -27,12 +27,12 @@ STATE_SP_NUMBER_WAIT1 11
 STATE_SP_NUMBER_WAIT2 12
 STATE_SP_NUMBER_WAIT3 13
 ]
-"149
+"177
 [e E6339 . `uc
 NVM_OK 0
 NVM_ERROR 1
 ]
-"432
+"468
 [e E6871 . `uc
 TONE_OFF 0
 TONE_DIAL 1
@@ -44,12 +44,14 @@ TONE_BUSY 3
 NVM_OK 0
 NVM_ERROR 1
 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\__lldiv.c
+[v ___lldiv __lldiv `(ul  1 e 4 0 ]
 "1 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\abs.c
 [v _abs abs `(i  1 e 2 0 ]
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\awdiv.c
-[v ___awdiv __awdiv `(i  1 e 2 0 ]
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\awmod.c
-[v ___awmod __awmod `(i  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\almod.c
+[v ___almod __almod `(l  1 e 4 0 ]
 "193 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\doprnt.c
 [v _pad pad `(v  1 s 1 pad ]
 "513
@@ -66,12 +68,10 @@ NVM_ERROR 1
 [v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
 "1817
 [v _vfprintf vfprintf `(i  1 e 2 0 ]
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\lwdiv.c
-[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\lwmod.c
-[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\llmod.c
+[v ___llmod __llmod `(ul  1 e 4 0 ]
 "3 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\memset.c
-[v _memset memset `(*.5v  1 e 2 0 ]
+[v _memset memset `(*.6v  1 e 2 0 ]
 "8 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\nf_fputc.c
 [v _fputc fputc `(i  1 e 2 0 ]
 "8 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\nf_fputs.c
@@ -147,23 +147,27 @@ NVM_ERROR 1
 [v _HAL_Switch_Control HAL_Switch_Control `(v  1 e 1 0 ]
 "221
 [v _HAL_GetMaxLines HAL_GetMaxLines `(uc  1 e 1 0 ]
-"103 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"107 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+[s S328 . 7 `ul 1 days 4 0 `uc 1 hours 1 4 `uc 1 minutes 1 5 `uc 1 seconds 1 6 ]
+"114
+[v _convert_seconds convert_seconds `(S328  1 e 7 0 ]
+"131
 [v _read_configuration_space read_configuration_space `(us  1 e 2 0 ]
-"121
+"149
 [v _SaveSettings SaveSettings `(v  1 e 1 0 ]
-"160
+"188
 [v _LoadSettings LoadSettings `(v  1 e 1 0 ]
-"198
+"226
 [v _GetStateString GetStateString `(*.25DCuc  1 e 2 0 ]
-"216
+"244
 [v _PBX_SystemTick_1ms PBX_SystemTick_1ms `(v  1 e 1 0 ]
-"233
+"261
 [v _TMR2_Tick_Handler TMR2_Tick_Handler `(v  1 e 1 0 ]
-"252
+"280
 [v _main main `(i  1 e 2 0 ]
-"407
+"443
 [v _ProcessStateMachine ProcessStateMachine `(v  1 e 1 0 ]
-"676
+"706
 [v _ProcessCommandLine ProcessCommandLine `(v  1 e 1 0 ]
 "41 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\clc\src\clc1.c
 [v _CLC1_Initialize CLC1_Initialize `(v  1 e 1 0 ]
@@ -277,14 +281,14 @@ NVM_ERROR 1
 [v _EUSART_FramingErrorCallbackRegister EUSART_FramingErrorCallbackRegister `(v  1 e 1 0 ]
 "407
 [v _EUSART_OverrunErrorCallbackRegister EUSART_OverrunErrorCallbackRegister `(v  1 e 1 0 ]
-[s S350 . 1 `uc 1 INTEDG 1 0 :1:0 
+[s S84 . 1 `uc 1 INTEDG 1 0 :1:0 
 `uc 1 . 1 0 :5:1 
 `uc 1 PEIE 1 0 :1:6 
 `uc 1 GIE 1 0 :1:7 
 ]
 "348 C:/Users/tsq/.mchp_packs/Microchip/PIC16F1xxxx_DFP/1.31.465/xc8\pic\include\proc/pic16f18326.h
-[u S355 . 1 `S350 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES355  1 e 1 @11 ]
+[u S89 . 1 `S84 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES89  1 e 1 @11 ]
 [s S53 . 1 `uc 1 RC0 1 0 :1:0 
 `uc 1 RC1 1 0 :1:1 
 `uc 1 RC2 1 0 :1:2 
@@ -295,15 +299,15 @@ NVM_ERROR 1
 "433
 [u S60 . 1 `S53 1 . 1 0 ]
 [v _PORTCbits PORTCbits `VES60  1 e 1 @14 ]
-[s S1352 . 1 `uc 1 INTF 1 0 :1:0 
+[s S1382 . 1 `uc 1 INTF 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 IOCIF 1 0 :1:4 
 `uc 1 TMR0IF 1 0 :1:5 
 ]
 "481
-[u S1357 . 1 `S1352 1 . 1 0 ]
-[v _PIR0bits PIR0bits `VES1357  1 e 1 @16 ]
-[s S1404 . 1 `uc 1 TMR1IF 1 0 :1:0 
+[u S1387 . 1 `S1382 1 . 1 0 ]
+[v _PIR0bits PIR0bits `VES1387  1 e 1 @16 ]
+[s S1434 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 BCL1IF 1 0 :1:2 
 `uc 1 SSP1IF 1 0 :1:3 
@@ -313,9 +317,9 @@ NVM_ERROR 1
 `uc 1 TMR1GIF 1 0 :1:7 
 ]
 "518
-[u S1413 . 1 `S1404 1 . 1 0 ]
-[v _PIR1bits PIR1bits `VES1413  1 e 1 @17 ]
-[s S1224 . 1 `uc 1 NCO1IF 1 0 :1:0 
+[u S1443 . 1 `S1434 1 . 1 0 ]
+[v _PIR1bits PIR1bits `VES1443  1 e 1 @17 ]
+[s S1254 . 1 `uc 1 NCO1IF 1 0 :1:0 
 `uc 1 TMR4IF 1 0 :1:1 
 `uc 1 BCL2IF 1 0 :1:2 
 `uc 1 SSP2IF 1 0 :1:3 
@@ -325,9 +329,9 @@ NVM_ERROR 1
 `uc 1 TMR6IF 1 0 :1:7 
 ]
 "580
-[u S1233 . 1 `S1224 1 . 1 0 ]
-[v _PIR2bits PIR2bits `VES1233  1 e 1 @18 ]
-[s S772 . 1 `uc 1 CLC1IF 1 0 :1:0 
+[u S1263 . 1 `S1254 1 . 1 0 ]
+[v _PIR2bits PIR2bits `VES1263  1 e 1 @18 ]
+[s S802 . 1 `uc 1 CLC1IF 1 0 :1:0 
 `uc 1 CLC2IF 1 0 :1:1 
 `uc 1 CLC3IF 1 0 :1:2 
 `uc 1 CLC4IF 1 0 :1:3 
@@ -337,20 +341,20 @@ NVM_ERROR 1
 `uc 1 OSFIF 1 0 :1:7 
 ]
 "642
-[u S781 . 1 `S772 1 . 1 0 ]
-[v _PIR3bits PIR3bits `VES781  1 e 1 @19 ]
+[u S811 . 1 `S802 1 . 1 0 ]
+[v _PIR3bits PIR3bits `VES811  1 e 1 @19 ]
 "1372
 [v _TMR2 TMR2 `VEuc  1 e 1 @29 ]
 "1392
 [v _PR2 PR2 `VEuc  1 e 1 @30 ]
 "1412
 [v _T2CON T2CON `VEuc  1 e 1 @31 ]
-[s S1625 . 1 `uc 1 T2CKPS 1 0 :2:0 
+[s S1655 . 1 `uc 1 T2CKPS 1 0 :2:0 
 `uc 1 TMR2ON 1 0 :1:2 
 `uc 1 T2OUTPS 1 0 :4:3 
 ]
 "1433
-[s S1629 . 1 `uc 1 T2CKPS0 1 0 :1:0 
+[s S1659 . 1 `uc 1 T2CKPS0 1 0 :1:0 
 `uc 1 T2CKPS1 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 T2OUTPS0 1 0 :1:3 
@@ -358,11 +362,11 @@ NVM_ERROR 1
 `uc 1 T2OUTPS2 1 0 :1:5 
 `uc 1 T2OUTPS3 1 0 :1:6 
 ]
-[u S1637 . 1 `S1625 1 . 1 0 `S1629 1 . 1 0 ]
-[v _T2CONbits T2CONbits `VES1637  1 e 1 @31 ]
+[u S1667 . 1 `S1655 1 . 1 0 `S1659 1 . 1 0 ]
+[v _T2CONbits T2CONbits `VES1667  1 e 1 @31 ]
 "1483
 [v _TRISA TRISA `VEuc  1 e 1 @140 ]
-[s S177 . 1 `uc 1 TRISA0 1 0 :1:0 
+[s S194 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -370,11 +374,11 @@ NVM_ERROR 1
 `uc 1 TRISA5 1 0 :1:5 
 ]
 "1498
-[u S184 . 1 `S177 1 . 1 0 ]
-[v _TRISAbits TRISAbits `VES184  1 e 1 @140 ]
+[u S201 . 1 `S194 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES201  1 e 1 @140 ]
 "1528
 [v _TRISC TRISC `VEuc  1 e 1 @142 ]
-[s S1383 . 1 `uc 1 TMR1IE 1 0 :1:0 
+[s S1413 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 `uc 1 BCL1IE 1 0 :1:2 
 `uc 1 SSP1IE 1 0 :1:3 
@@ -384,9 +388,9 @@ NVM_ERROR 1
 `uc 1 TMR1GIE 1 0 :1:7 
 ]
 "1628
-[u S1392 . 1 `S1383 1 . 1 0 ]
-[v _PIE1bits PIE1bits `VES1392  1 e 1 @145 ]
-[s S1429 . 1 `uc 1 NCO1IE 1 0 :1:0 
+[u S1422 . 1 `S1413 1 . 1 0 ]
+[v _PIE1bits PIE1bits `VES1422  1 e 1 @145 ]
+[s S1459 . 1 `uc 1 NCO1IE 1 0 :1:0 
 `uc 1 TMR4IE 1 0 :1:1 
 `uc 1 BCL2IE 1 0 :1:2 
 `uc 1 SSP2IE 1 0 :1:3 
@@ -396,13 +400,13 @@ NVM_ERROR 1
 `uc 1 TMR6IE 1 0 :1:7 
 ]
 "1690
-[u S1438 . 1 `S1429 1 . 1 0 ]
-[v _PIE2bits PIE2bits `VES1438  1 e 1 @146 ]
+[u S1468 . 1 `S1459 1 . 1 0 ]
+[v _PIE2bits PIE2bits `VES1468  1 e 1 @146 ]
 "1859
 [v _WDTCON WDTCON `VEuc  1 e 1 @151 ]
 "2175
 [v _LATA LATA `VEuc  1 e 1 @268 ]
-[s S204 . 1 `uc 1 LATA0 1 0 :1:0 
+[s S221 . 1 `uc 1 LATA0 1 0 :1:0 
 `uc 1 LATA1 1 0 :1:1 
 `uc 1 LATA2 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -410,8 +414,8 @@ NVM_ERROR 1
 `uc 1 LATA5 1 0 :1:5 
 ]
 "2190
-[u S211 . 1 `S204 1 . 1 0 ]
-[v _LATAbits LATAbits `VES211  1 e 1 @268 ]
+[u S228 . 1 `S221 1 . 1 0 ]
+[v _LATAbits LATAbits `VES228  1 e 1 @268 ]
 "2220
 [v _LATC LATC `VEuc  1 e 1 @270 ]
 [s S36 . 1 `uc 1 LATC0 1 0 :1:0 
@@ -438,7 +442,7 @@ NVM_ERROR 1
 [v _SP1BRGH SP1BRGH `VEuc  1 e 1 @412 ]
 "3107
 [v _RC1STA RC1STA `VEuc  1 e 1 @413 ]
-[s S1911 . 1 `uc 1 RX9D 1 0 :1:0 
+[s S1941 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
 `uc 1 FERR 1 0 :1:2 
 `uc 1 ADDEN 1 0 :1:3 
@@ -448,11 +452,11 @@ NVM_ERROR 1
 `uc 1 SPEN 1 0 :1:7 
 ]
 "3133
-[u S1920 . 1 `S1911 1 . 1 0 ]
-[v _RC1STAbits RC1STAbits `VES1920  1 e 1 @413 ]
+[u S1950 . 1 `S1941 1 . 1 0 ]
+[v _RC1STAbits RC1STAbits `VES1950  1 e 1 @413 ]
 "3287
 [v _TX1STA TX1STA `VEuc  1 e 1 @414 ]
-[s S1932 . 1 `uc 1 TX9D 1 0 :1:0 
+[s S1962 . 1 `uc 1 TX9D 1 0 :1:0 
 `uc 1 TRMT 1 0 :1:1 
 `uc 1 BRGH 1 0 :1:2 
 `uc 1 SENDB 1 0 :1:3 
@@ -462,11 +466,11 @@ NVM_ERROR 1
 `uc 1 CSRC 1 0 :1:7 
 ]
 "3313
-[u S1941 . 1 `S1932 1 . 1 0 ]
-[v _TX1STAbits TX1STAbits `VES1941  1 e 1 @414 ]
+[u S1971 . 1 `S1962 1 . 1 0 ]
+[v _TX1STAbits TX1STAbits `VES1971  1 e 1 @414 ]
 "3467
 [v _BAUD1CON BAUD1CON `VEuc  1 e 1 @415 ]
-[s S1953 . 1 `uc 1 ABDEN 1 0 :1:0 
+[s S1983 . 1 `uc 1 ABDEN 1 0 :1:0 
 `uc 1 WUE 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 BRG16 1 0 :1:3 
@@ -476,8 +480,8 @@ NVM_ERROR 1
 `uc 1 ABDOVF 1 0 :1:7 
 ]
 "3501
-[u S1962 . 1 `S1953 1 . 1 0 ]
-[v _BAUD1CONbits BAUD1CONbits `VES1962  1 e 1 @415 ]
+[u S1992 . 1 `S1983 1 . 1 0 ]
+[v _BAUD1CONbits BAUD1CONbits `VES1992  1 e 1 @415 ]
 "3713
 [v _WPUA WPUA `VEuc  1 e 1 @524 ]
 "3763
@@ -512,12 +516,12 @@ NVM_ERROR 1
 [v _PR4 PR4 `VEuc  1 e 1 @1046 ]
 "7727
 [v _T4CON T4CON `VEuc  1 e 1 @1047 ]
-[s S1710 . 1 `uc 1 T4CKPS 1 0 :2:0 
+[s S1740 . 1 `uc 1 T4CKPS 1 0 :2:0 
 `uc 1 TMR4ON 1 0 :1:2 
 `uc 1 T4OUTPS 1 0 :4:3 
 ]
 "7748
-[s S1714 . 1 `uc 1 T4CKPS0 1 0 :1:0 
+[s S1744 . 1 `uc 1 T4CKPS0 1 0 :1:0 
 `uc 1 T4CKPS1 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 T4OUTPS0 1 0 :1:3 
@@ -525,20 +529,20 @@ NVM_ERROR 1
 `uc 1 T4OUTPS2 1 0 :1:5 
 `uc 1 T4OUTPS3 1 0 :1:6 
 ]
-[u S1722 . 1 `S1710 1 . 1 0 `S1714 1 . 1 0 ]
-[v _T4CONbits T4CONbits `VES1722  1 e 1 @1047 ]
+[u S1752 . 1 `S1740 1 . 1 0 `S1744 1 . 1 0 ]
+[v _T4CONbits T4CONbits `VES1752  1 e 1 @1047 ]
 "7987
 [v _TMR6 TMR6 `VEuc  1 e 1 @1052 ]
 "8007
 [v _PR6 PR6 `VEuc  1 e 1 @1053 ]
 "8027
 [v _T6CON T6CON `VEuc  1 e 1 @1054 ]
-[s S1783 . 1 `uc 1 T6CKPS 1 0 :2:0 
+[s S1813 . 1 `uc 1 T6CKPS 1 0 :2:0 
 `uc 1 TMR6ON 1 0 :1:2 
 `uc 1 T6OUTPS 1 0 :4:3 
 ]
 "8048
-[s S1787 . 1 `uc 1 T6CKPS0 1 0 :1:0 
+[s S1817 . 1 `uc 1 T6CKPS0 1 0 :1:0 
 `uc 1 T6CKPS1 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 T6OUTPS0 1 0 :1:3 
@@ -546,8 +550,8 @@ NVM_ERROR 1
 `uc 1 T6OUTPS2 1 0 :1:5 
 `uc 1 T6OUTPS3 1 0 :1:6 
 ]
-[u S1795 . 1 `S1783 1 . 1 0 `S1787 1 . 1 0 ]
-[v _T6CONbits T6CONbits `VES1795  1 e 1 @1054 ]
+[u S1825 . 1 `S1813 1 . 1 0 `S1817 1 . 1 0 ]
+[v _T6CONbits T6CONbits `VES1825  1 e 1 @1054 ]
 "8148
 [v _NCO1ACCL NCO1ACCL `VEuc  1 e 1 @1176 ]
 "8168
@@ -562,7 +566,7 @@ NVM_ERROR 1
 [v _NCO1INCU NCO1INCU `VEuc  1 e 1 @1181 ]
 "8277
 [v _NCO1CON NCO1CON `VEuc  1 e 1 @1182 ]
-[s S1245 . 1 `uc 1 N1PFM 1 0 :1:0 
+[s S1275 . 1 `uc 1 N1PFM 1 0 :1:0 
 `uc 1 . 1 0 :3:1 
 `uc 1 N1POL 1 0 :1:4 
 `uc 1 N1OUT 1 0 :1:5 
@@ -570,8 +574,8 @@ NVM_ERROR 1
 `uc 1 N1EN 1 0 :1:7 
 ]
 "8292
-[u S1252 . 1 `S1245 1 . 1 0 ]
-[v _NCO1CONbits NCO1CONbits `VES1252  1 e 1 @1182 ]
+[u S1282 . 1 `S1275 1 . 1 0 ]
+[v _NCO1CONbits NCO1CONbits `VES1282  1 e 1 @1182 ]
 "8317
 [v _NCO1CLK NCO1CLK `VEuc  1 e 1 @1183 ]
 "10230
@@ -582,7 +586,7 @@ NVM_ERROR 1
 [v _NVMDATL NVMDATL `VEuc  1 e 1 @2195 ]
 "10984
 [v _NVMDATH NVMDATH `VEuc  1 e 1 @2196 ]
-[s S313 . 1 `uc 1 RD 1 0 :1:0 
+[s S335 . 1 `uc 1 RD 1 0 :1:0 
 `uc 1 WR 1 0 :1:1 
 `uc 1 WREN 1 0 :1:2 
 `uc 1 WRERR 1 0 :1:3 
@@ -591,11 +595,11 @@ NVM_ERROR 1
 `uc 1 NVMREGS 1 0 :1:6 
 ]
 "11229
-[s S321 . 1 `uc 1 . 1 0 :6:0 
+[s S343 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 CFGS 1 0 :1:6 
 ]
-[u S324 . 1 `S313 1 . 1 0 `S321 1 . 1 0 ]
-[v _NVMCON1bits NVMCON1bits `VES324  1 e 1 @2197 ]
+[u S346 . 1 `S335 1 . 1 0 `S343 1 . 1 0 ]
+[v _NVMCON1bits NVMCON1bits `VES346  1 e 1 @2197 ]
 "11389
 [v _NVMCON2 NVMCON2 `VEuc  1 e 1 @2198 ]
 "11900
@@ -624,7 +628,7 @@ NVM_ERROR 1
 [v _RA5PPS RA5PPS `VEuc  1 e 1 @3733 ]
 "14297
 [v _CLC1CON CLC1CON `VEuc  1 e 1 @3856 ]
-[s S793 . 1 `uc 1 LC1MODE 1 0 :3:0 
+[s S823 . 1 `uc 1 LC1MODE 1 0 :3:0 
 `uc 1 LC1INTN 1 0 :1:3 
 `uc 1 LC1INTP 1 0 :1:4 
 `uc 1 LC1OUT 1 0 :1:5 
@@ -632,23 +636,23 @@ NVM_ERROR 1
 `uc 1 LC1EN 1 0 :1:7 
 ]
 "14330
-[s S800 . 1 `uc 1 LC1MODE0 1 0 :1:0 
+[s S830 . 1 `uc 1 LC1MODE0 1 0 :1:0 
 `uc 1 LC1MODE1 1 0 :1:1 
 `uc 1 LC1MODE2 1 0 :1:2 
 ]
-[s S804 . 1 `uc 1 MODE 1 0 :3:0 
+[s S834 . 1 `uc 1 MODE 1 0 :3:0 
 `uc 1 INTN 1 0 :1:3 
 `uc 1 INTP 1 0 :1:4 
 `uc 1 OUT 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 EN 1 0 :1:7 
 ]
-[s S811 . 1 `uc 1 MODE0 1 0 :1:0 
+[s S841 . 1 `uc 1 MODE0 1 0 :1:0 
 `uc 1 MODE1 1 0 :1:1 
 `uc 1 MODE2 1 0 :1:2 
 ]
-[u S815 . 1 `S793 1 . 1 0 `S800 1 . 1 0 `S804 1 . 1 0 `S811 1 . 1 0 ]
-[v _CLC1CONbits CLC1CONbits `VES815  1 e 1 @3856 ]
+[u S845 . 1 `S823 1 . 1 0 `S830 1 . 1 0 `S834 1 . 1 0 `S841 1 . 1 0 ]
+[v _CLC1CONbits CLC1CONbits `VES845  1 e 1 @3856 ]
 "14415
 [v _CLC1POL CLC1POL `VEuc  1 e 1 @3857 ]
 "14493
@@ -669,7 +673,7 @@ NVM_ERROR 1
 [v _CLC1GLS3 CLC1GLS3 `VEuc  1 e 1 @3865 ]
 "15357
 [v _CLC2CON CLC2CON `VEuc  1 e 1 @3866 ]
-[s S913 . 1 `uc 1 LC2MODE 1 0 :3:0 
+[s S943 . 1 `uc 1 LC2MODE 1 0 :3:0 
 `uc 1 LC2INTN 1 0 :1:3 
 `uc 1 LC2INTP 1 0 :1:4 
 `uc 1 LC2OUT 1 0 :1:5 
@@ -677,12 +681,12 @@ NVM_ERROR 1
 `uc 1 LC2EN 1 0 :1:7 
 ]
 "15390
-[s S920 . 1 `uc 1 LC2MODE0 1 0 :1:0 
+[s S950 . 1 `uc 1 LC2MODE0 1 0 :1:0 
 `uc 1 LC2MODE1 1 0 :1:1 
 `uc 1 LC2MODE2 1 0 :1:2 
 ]
-[u S935 . 1 `S913 1 . 1 0 `S920 1 . 1 0 `S804 1 . 1 0 `S811 1 . 1 0 ]
-[v _CLC2CONbits CLC2CONbits `VES935  1 e 1 @3866 ]
+[u S965 . 1 `S943 1 . 1 0 `S950 1 . 1 0 `S834 1 . 1 0 `S841 1 . 1 0 ]
+[v _CLC2CONbits CLC2CONbits `VES965  1 e 1 @3866 ]
 "15475
 [v _CLC2POL CLC2POL `VEuc  1 e 1 @3867 ]
 "15553
@@ -703,7 +707,7 @@ NVM_ERROR 1
 [v _CLC2GLS3 CLC2GLS3 `VEuc  1 e 1 @3875 ]
 "16417
 [v _CLC3CON CLC3CON `VEuc  1 e 1 @3876 ]
-[s S1025 . 1 `uc 1 LC3MODE 1 0 :3:0 
+[s S1055 . 1 `uc 1 LC3MODE 1 0 :3:0 
 `uc 1 LC3INTN 1 0 :1:3 
 `uc 1 LC3INTP 1 0 :1:4 
 `uc 1 LC3OUT 1 0 :1:5 
@@ -711,12 +715,12 @@ NVM_ERROR 1
 `uc 1 LC3EN 1 0 :1:7 
 ]
 "16450
-[s S1032 . 1 `uc 1 LC3MODE0 1 0 :1:0 
+[s S1062 . 1 `uc 1 LC3MODE0 1 0 :1:0 
 `uc 1 LC3MODE1 1 0 :1:1 
 `uc 1 LC3MODE2 1 0 :1:2 
 ]
-[u S1047 . 1 `S1025 1 . 1 0 `S1032 1 . 1 0 `S804 1 . 1 0 `S811 1 . 1 0 ]
-[v _CLC3CONbits CLC3CONbits `VES1047  1 e 1 @3876 ]
+[u S1077 . 1 `S1055 1 . 1 0 `S1062 1 . 1 0 `S834 1 . 1 0 `S841 1 . 1 0 ]
+[v _CLC3CONbits CLC3CONbits `VES1077  1 e 1 @3876 ]
 "16535
 [v _CLC3POL CLC3POL `VEuc  1 e 1 @3877 ]
 "16613
@@ -737,7 +741,7 @@ NVM_ERROR 1
 [v _CLC3GLS3 CLC3GLS3 `VEuc  1 e 1 @3885 ]
 "17477
 [v _CLC4CON CLC4CON `VEuc  1 e 1 @3886 ]
-[s S1137 . 1 `uc 1 LC4MODE 1 0 :3:0 
+[s S1167 . 1 `uc 1 LC4MODE 1 0 :3:0 
 `uc 1 LC4INTN 1 0 :1:3 
 `uc 1 LC4INTP 1 0 :1:4 
 `uc 1 LC4OUT 1 0 :1:5 
@@ -745,12 +749,12 @@ NVM_ERROR 1
 `uc 1 LC4EN 1 0 :1:7 
 ]
 "17510
-[s S1144 . 1 `uc 1 LC4MODE0 1 0 :1:0 
+[s S1174 . 1 `uc 1 LC4MODE0 1 0 :1:0 
 `uc 1 LC4MODE1 1 0 :1:1 
 `uc 1 LC4MODE2 1 0 :1:2 
 ]
-[u S1159 . 1 `S1137 1 . 1 0 `S1144 1 . 1 0 `S804 1 . 1 0 `S811 1 . 1 0 ]
-[v _CLC4CONbits CLC4CONbits `VES1159  1 e 1 @3886 ]
+[u S1189 . 1 `S1167 1 . 1 0 `S1174 1 . 1 0 `S834 1 . 1 0 `S841 1 . 1 0 ]
+[v _CLC4CONbits CLC4CONbits `VES1189  1 e 1 @3886 ]
 "17595
 [v _CLC4POL CLC4POL `VEuc  1 e 1 @3887 ]
 "17673
@@ -778,28 +782,32 @@ NVM_ERROR 1
 [v _dbuf dbuf `[32]uc  1 s 32 dbuf ]
 "24 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\hal_cid.c
 [v _running_crc running_crc `us  1 s 2 running_crc ]
-[s S171 . 6 `E36 1 current_tone 1 0 `a 1 is_ringing 1 1 `us 1 cadence_timer 2 2 `uc 1 ring_toggle_counter 1 4 `a 1 fr_state 1 5 ]
+[s S188 . 6 `E36 1 current_tone 1 0 `a 1 is_ringing 1 1 `us 1 cadence_timer 2 2 `uc 1 ring_toggle_counter 1 4 `a 1 fr_state 1 5 ]
 "29 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\hal_pbx.c
-[v _line_hw line_hw `[2]S171  1 s 12 line_hw ]
+[v _line_hw line_hw `[2]S188  1 s 12 line_hw ]
 "32
 [v _modulation_cycle modulation_cycle `uc  1 s 1 modulation_cycle ]
 "43 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _current_max_lines current_max_lines `uc  1 e 1 0 ]
-[s S276 . 10 `us 1 extension 2 0 `uc 1 initial_state 1 2 `uc 1 hotline_len 1 3 `[4]uc 1 hotline_num 4 4 `uc 1 caller_id_enabled 1 8 `uc 1 reserved 1 9 ]
-"56
-[v _port_configs port_configs `[2]S276  1 e 20 0 ]
-[s S298 . 21 `E7075 1 state 1 0 `a 1 current_hook 1 1 `a 1 last_hook 1 2 `uc 1 dp_count 1 3 `uc 1 dialed_digits 1 4 `[6]uc 1 dialed_number 6 5 `VEus 1 dp_timer 2 11 `VEus 1 state_timer 2 13 `VEus 1 hangup_timer 2 15 `uc 1 target_port 1 17 `VEus 1 special_number 2 18 `VEuc 1 indication_tones 1 20 ]
-"100
-[v _lines lines `VE[2]S298  1 e 42 0 ]
-"231
+"46
+[v _uptime_seconds uptime_seconds `VEul  1 e 4 0 ]
+"47
+[v _uptime_cycles uptime_cycles `VEus  1 e 2 0 ]
+[s S293 . 10 `us 1 extension 2 0 `uc 1 initial_state 1 2 `uc 1 hotline_len 1 3 `[4]uc 1 hotline_num 4 4 `uc 1 caller_id_enabled 1 8 `uc 1 reserved 1 9 ]
+"60
+[v _port_configs port_configs `[2]S293  1 e 20 0 ]
+[s S315 . 21 `E7077 1 state 1 0 `a 1 current_hook 1 1 `a 1 last_hook 1 2 `uc 1 dp_count 1 3 `uc 1 dialed_digits 1 4 `[6]uc 1 dialed_number 6 5 `VEus 1 dp_timer 2 11 `VEus 1 state_timer 2 13 `VEus 1 hangup_timer 2 15 `uc 1 target_port 1 17 `VEus 1 special_number 2 18 `VEuc 1 indication_tones 1 20 ]
+"104
+[v _lines lines `VE[2]S315  1 e 42 0 ]
+"259
 [v _system_tick_count system_tick_count `VEuc  1 e 1 0 ]
-"238
+"266
 [v _rxBuffer rxBuffer `[64]uc  1 e 64 0 ]
-"239
+"267
 [v _rxIndex rxIndex `uc  1 e 1 0 ]
-"242
+"270
 [v _lastCmdBuffer lastCmdBuffer `[64]uc  1 e 64 0 ]
-"243
+"271
 [v _escState escState `uc  1 e 1 0 ]
 "38 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\clc\src\clc1.c
 [v _CLC1_Callback CLC1_Callback `*.37(v  1 s 2 CLC1_Callback ]
@@ -837,16 +845,16 @@ NVM_ERROR 1
 [v _eusartRxCount eusartRxCount `VEuc  1 s 1 eusartRxCount ]
 "60
 [v _eusartRxBuffer eusartRxBuffer `VE[16]uc  1 s 16 eusartRxBuffer ]
-[s S1848 . 1 `uc 1 perr 1 0 :1:0 
+[s S1878 . 1 `uc 1 perr 1 0 :1:0 
 `uc 1 ferr 1 0 :1:1 
 `uc 1 oerr 1 0 :1:2 
 `uc 1 reserved 1 0 :5:3 
 ]
 "66
-[u S1853 . 2 `S1848 1 . 1 0 `ui 1 status 2 0 ]
-[v _eusartRxStatusBuffer eusartRxStatusBuffer `VE[16]S1853  1 s 32 eusartRxStatusBuffer ]
+[u S1883 . 2 `S1878 1 . 1 0 `ui 1 status 2 0 ]
+[v _eusartRxStatusBuffer eusartRxStatusBuffer `VE[16]S1883  1 s 32 eusartRxStatusBuffer ]
 "73
-[v _eusartRxLastError eusartRxLastError `VES1853  1 s 2 eusartRxLastError ]
+[v _eusartRxLastError eusartRxLastError `VES1883  1 s 2 eusartRxLastError ]
 "79
 [v _EUSART_TxInterruptHandler EUSART_TxInterruptHandler `*.37(v  1 e 2 0 ]
 "81
@@ -859,26 +867,26 @@ NVM_ERROR 1
 [v _EUSART_FramingErrorHandler EUSART_FramingErrorHandler `*.37(v  1 s 2 EUSART_FramingErrorHandler ]
 "87
 [v _EUSART_OverrunErrorHandler EUSART_OverrunErrorHandler `*.37(v  1 s 2 EUSART_OverrunErrorHandler ]
-"252 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"280 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _main main `(i  1 e 2 0 ]
 {
-"361
-[v main@i_591 i `uc  1 a 1 30 ]
-"346
-[v main@rxData rxData `uc  1 a 1 34 ]
-"341
-[v main@i_589 i `uc  1 a 1 31 ]
-"321
-[v main@i_584 i `uc  1 a 1 32 ]
-"307
-[v main@i_578 i `uc  1 a 1 33 ]
-"291
-[v main@i i `uc  1 a 1 35 ]
-"259
-[v main@revision_id revision_id `us  1 a 2 28 ]
-"258
-[v main@device_id device_id `us  1 a 2 26 ]
-"403
+"397
+[v main@i_614 i `uc  1 a 1 29 ]
+"382
+[v main@rxData rxData `uc  1 a 1 33 ]
+"377
+[v main@i_612 i `uc  1 a 1 30 ]
+"352
+[v main@i_607 i `uc  1 a 1 31 ]
+"338
+[v main@i_601 i `uc  1 a 1 32 ]
+"322
+[v main@i i `uc  1 a 1 34 ]
+"287
+[v main@revision_id revision_id `us  1 a 2 27 ]
+"286
+[v main@device_id device_id `us  1 a 2 25 ]
+"439
 } 0
 "3 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\strcpy.c
 [v _strcpy strcpy `(*.7uc  1 e 2 0 ]
@@ -890,11 +898,11 @@ NVM_ERROR 1
 [v strcpy@src src `*.7DCuc  1 p 1 1 ]
 "8
 } 0
-"103 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"131 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _read_configuration_space read_configuration_space `(us  1 e 2 0 ]
 {
 [v read_configuration_space@address address `us  1 p 2 0 ]
-"118
+"146
 } 0
 "124 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\timer\src\tmr2.c
 [v _TMR2_PeriodMatchCallbackRegister TMR2_PeriodMatchCallbackRegister `(v  1 e 1 0 ]
@@ -1024,68 +1032,68 @@ NVM_ERROR 1
 [v CLC1_CallbackRegister@CallbackHandler CallbackHandler `*.37(v  1 p 2 0 ]
 "106
 } 0
-"407 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"443 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _ProcessStateMachine ProcessStateMachine `(v  1 e 1 0 ]
 {
 [v ProcessStateMachine@ch ch `uc  1 p 1 wreg ]
-"555
+"591
 [v ProcessStateMachine@cid_string cid_string `[6]uc  1 a 6 13 ]
-"583
+"613
 [v ProcessStateMachine@caller caller `uc  1 a 1 12 ]
-"468
-[v ProcessStateMachine@i_621 i `uc  1 a 1 22 ]
-"461
+"504
+[v ProcessStateMachine@i_644 i `uc  1 a 1 22 ]
+"497
 [v ProcessStateMachine@i i `uc  1 a 1 25 ]
-"421
+"457
 [v ProcessStateMachine@t_ch t_ch `uc  1 a 1 29 ]
-"537
-[v ProcessStateMachine@i_633 i `uc  1 a 1 26 ]
-"524
-[v ProcessStateMachine@i_631 i `uc  1 a 1 23 ]
-"602
-[v ProcessStateMachine@caller_643 caller `uc  1 a 1 24 ]
-"523
+"573
+[v ProcessStateMachine@i_656 i `uc  1 a 1 26 ]
+"560
+[v ProcessStateMachine@i_654 i `uc  1 a 1 23 ]
+"632
+[v ProcessStateMachine@caller_666 caller `uc  1 a 1 24 ]
+"559
 [v ProcessStateMachine@dialed_val dialed_val `us  1 a 2 27 ]
-"535
+"571
 [v ProcessStateMachine@target_ch target_ch `uc  1 a 1 30 ]
-"498
+"534
 [v ProcessStateMachine@digit digit `uc  1 a 1 21 ]
-[s S298 . 21 `E7075 1 state 1 0 `a 1 current_hook 1 1 `a 1 last_hook 1 2 `uc 1 dp_count 1 3 `uc 1 dialed_digits 1 4 `[6]uc 1 dialed_number 6 5 `VEus 1 dp_timer 2 11 `VEus 1 state_timer 2 13 `VEus 1 hangup_timer 2 15 `uc 1 target_port 1 17 `VEus 1 special_number 2 18 `VEuc 1 indication_tones 1 20 ]
-"408
-[v ProcessStateMachine@line line `*.5VES298  1 a 1 32 ]
-"407
+[s S315 . 21 `E7077 1 state 1 0 `a 1 current_hook 1 1 `a 1 last_hook 1 2 `uc 1 dp_count 1 3 `uc 1 dialed_digits 1 4 `[6]uc 1 dialed_number 6 5 `VEus 1 dp_timer 2 11 `VEus 1 state_timer 2 13 `VEus 1 hangup_timer 2 15 `uc 1 target_port 1 17 `VEus 1 special_number 2 18 `VEuc 1 indication_tones 1 20 ]
+"444
+[v ProcessStateMachine@line line `*.5VES315  1 a 1 32 ]
+"443
 [v ProcessStateMachine@ch ch `uc  1 p 1 wreg ]
 [v ProcessStateMachine@ch ch `uc  1 p 1 31 ]
-"673
+"703
 } 1
 "9 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\nf_sprintf.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
 {
-[u S2494 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[u S2524 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
 "13
-[s S2497 _IO_FILE 11 `S2494 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v sprintf@f f `S2497  1 a 11 1 ]
+[s S2527 _IO_FILE 11 `S2524 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v sprintf@f f `S2527  1 a 11 1 ]
 "12
 [v sprintf@ap ap `[1]*.4v  1 a 1 0 ]
 "9
-[v sprintf@s s `*.4uc  1 p 1 65 ]
-[v sprintf@fmt fmt `*.25DCuc  1 p 2 66 ]
+[v sprintf@s s `*.4uc  1 p 1 69 ]
+[v sprintf@fmt fmt `*.25DCuc  1 p 2 70 ]
 "23
 } 0
 "256 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\hal_cid.c
 [v _Send_NTT_CallerID Send_NTT_CallerID `(a  1 e 1 0 ]
 {
 [v Send_NTT_CallerID@line line `uc  1 p 1 wreg ]
-"281
+"286
 [v Send_NTT_CallerID@shk_value shk_value `uc  1 a 1 26 ]
-"279
+"284
 [v Send_NTT_CallerID@i i `uc  1 a 1 27 ]
 "256
 [v Send_NTT_CallerID@line line `uc  1 p 1 wreg ]
 [v Send_NTT_CallerID@num_str num_str `*.4uc  1 p 1 23 ]
 "264
 [v Send_NTT_CallerID@line line `uc  1 p 1 28 ]
-"315
+"320
 } 1
 "194
 [v _Send_NTT_CAR Send_NTT_CAR `(a  1 e 1 0 ]
@@ -1196,7 +1204,7 @@ NVM_ERROR 1
 {
 [v FSK_SendByte@data data `uc  1 p 1 wreg ]
 "78
-[v FSK_SendByte@i_112 i `c  1 a 1 14 ]
+[v FSK_SendByte@i_125 i `c  1 a 1 14 ]
 "74
 [v FSK_SendByte@i i `uc  1 a 1 13 ]
 "70
@@ -1286,42 +1294,45 @@ NVM_ERROR 1
 {
 "130
 } 0
-"676 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"706 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _ProcessCommandLine ProcessCommandLine `(v  1 e 1 0 ]
 {
-"816
-[v ProcessCommandLine@i_715 i `uc  1 a 1 11 ]
-"698
-[v ProcessCommandLine@d d `uc  1 a 1 10 ]
-"807
-[v ProcessCommandLine@len_713 len `uc  1 a 1 24 ]
-"779
-[v ProcessCommandLine@line2_700 line2 `uc  1 a 1 16 ]
-"778
-[v ProcessCommandLine@line1_699 line1 `uc  1 a 1 15 ]
-"767
-[v ProcessCommandLine@line2 line2 `uc  1 a 1 14 ]
-"766
-[v ProcessCommandLine@line1 line1 `uc  1 a 1 13 ]
-"714
-[v ProcessCommandLine@ext ext `us  1 a 2 17 ]
-"715
-[v ProcessCommandLine@len len `uc  1 a 1 22 ]
-"683
-[v ProcessCommandLine@i i `uc  1 a 1 25 ]
-"827
-[v ProcessCommandLine@port_721 port `uc  1 a 1 21 ]
+"849
+[v ProcessCommandLine@i_745 i `uc  1 a 1 3 ]
+"731
+[v ProcessCommandLine@d d `uc  1 a 1 2 ]
+"840
+[v ProcessCommandLine@len_743 len `uc  1 a 1 23 ]
+"812
+[v ProcessCommandLine@line2_730 line2 `uc  1 a 1 8 ]
+"811
+[v ProcessCommandLine@line1_729 line1 `uc  1 a 1 7 ]
 "800
-[v ProcessCommandLine@port_710 port `uc  1 a 1 23 ]
-"736
-[v ProcessCommandLine@port_680 port `uc  1 a 1 20 ]
-"737
-[v ProcessCommandLine@tmp_mode tmp_mode `uc  1 a 1 19 ]
+[v ProcessCommandLine@line2 line2 `uc  1 a 1 6 ]
+"799
+[v ProcessCommandLine@line1 line1 `uc  1 a 1 5 ]
+"747
+[v ProcessCommandLine@ext ext `us  1 a 2 9 ]
+"748
+[v ProcessCommandLine@len len `uc  1 a 1 21 ]
+"716
+[v ProcessCommandLine@i i `uc  1 a 1 24 ]
+"860
+[v ProcessCommandLine@port_751 port `uc  1 a 1 20 ]
+"833
+[v ProcessCommandLine@port_740 port `uc  1 a 1 22 ]
+"769
+[v ProcessCommandLine@port_710 port `uc  1 a 1 19 ]
+"770
+[v ProcessCommandLine@tmp_mode tmp_mode `uc  1 a 1 11 ]
+"745
+[v ProcessCommandLine@port port `uc  1 a 1 4 ]
+[s S328 . 7 `ul 1 days 4 0 `uc 1 hours 1 4 `uc 1 minutes 1 5 `uc 1 seconds 1 6 ]
 "712
-[v ProcessCommandLine@port port `uc  1 a 1 12 ]
-"676
-[v ProcessCommandLine@str str `*.7DCuc  1 p 1 76 ]
-"872
+[v ProcessCommandLine@uptime uptime `S328  1 a 7 12 ]
+"706
+[v ProcessCommandLine@str str `*.7DCuc  1 p 1 70 ]
+"905
 } 0
 "3 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\strncmp.c
 [v _strncmp strncmp `(i  1 e 2 0 ]
@@ -1338,6 +1349,19 @@ NVM_ERROR 1
 [v strcmp@r r `*.25DCuc  1 p 2 1 ]
 "7
 } 0
+"107 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+[s S328 . 7 `ul 1 days 4 0 `uc 1 hours 1 4 `uc 1 minutes 1 5 `uc 1 seconds 1 6 ]
+"114
+[v _convert_seconds convert_seconds `(S328  1 e 7 0 ]
+{
+"115
+[v convert_seconds@result result `S328  1 a 7 25 ]
+"119
+[v convert_seconds@rem rem `ul  1 a 4 21 ]
+"114
+[v convert_seconds@total_seconds total_seconds `ul  1 p 4 13 ]
+"128
+} 0
 "212 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\hal_pbx.c
 [v _HAL_Switch_Control HAL_Switch_Control `(v  1 e 1 0 ]
 {
@@ -1346,126 +1370,127 @@ NVM_ERROR 1
 [v HAL_Switch_Control@onoff onoff `a  1 p 1 0 ]
 "219
 } 1
-"198 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"226 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _GetStateString GetStateString `(*.25DCuc  1 e 2 0 ]
 {
-[v GetStateString@state state `E7075  1 p 1 wreg ]
-[v GetStateString@state state `E7075  1 p 1 wreg ]
-[v GetStateString@state state `E7075  1 p 1 7 ]
-"213
+[v GetStateString@state state `E7077  1 p 1 wreg ]
+[v GetStateString@state state `E7077  1 p 1 wreg ]
+[v GetStateString@state state `E7077  1 p 1 7 ]
+"241
 } 1
-"216
+"244
 [v _PBX_SystemTick_1ms PBX_SystemTick_1ms `(v  1 e 1 0 ]
 {
-"217
+"245
 [v PBX_SystemTick_1ms@i i `uc  1 a 1 5 ]
-"228
+"256
 } 0
-"160
+"188
 [v _LoadSettings LoadSettings `(v  1 e 1 0 ]
 {
-"182
-[v LoadSettings@i_519 i `uc  1 a 1 7 ]
-"175
-[v LoadSettings@i_500 i `uc  1 a 1 6 ]
-"170
-[v LoadSettings@i i `us  1 a 2 4 ]
-"169
-[v LoadSettings@ptr ptr `*.5uc  1 a 1 1 ]
-"161
-[v LoadSettings@current_addr current_addr `us  1 a 2 2 ]
-"164
-[v LoadSettings@magic magic `uc  1 a 1 0 ]
-"193
+"210
+[v LoadSettings@i_542 i `uc  1 a 1 79 ]
+"203
+[v LoadSettings@i_523 i `uc  1 a 1 78 ]
+"198
+[v LoadSettings@i i `us  1 a 2 76 ]
+"197
+[v LoadSettings@ptr ptr `*.6uc  1 a 1 73 ]
+"189
+[v LoadSettings@current_addr current_addr `us  1 a 2 74 ]
+"192
+[v LoadSettings@magic magic `uc  1 a 1 72 ]
+"221
 } 0
 "5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\printf.c
 [v _printf printf `(i  1 e 2 0 ]
 {
 "8
-[v printf@ap ap `[1]*.4v  1 a 1 75 ]
+[v printf@ap ap `[1]*.4v  1 a 1 69 ]
 "5
-[v printf@fmt fmt `*.25DCuc  1 p 2 65 ]
+[v printf@fmt fmt `*.25DCuc  1 p 2 0 ]
 "13
 } 0
 "1817 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\doprnt.c
 [v _vfprintf vfprintf `(i  1 e 2 0 ]
 {
 "1820
-[v vfprintf@cfmt cfmt `*.25uc  1 a 2 63 ]
-[s S2529 _IO_FILE 0 ]
+[v vfprintf@cfmt cfmt `*.25uc  1 a 2 67 ]
+[s S2559 _IO_FILE 0 ]
 "1817
-[v vfprintf@fp fp `*.39S2529  1 p 2 57 ]
-[v vfprintf@fmt fmt `*.25DCuc  1 p 2 59 ]
-[v vfprintf@ap ap `*.4*.4v  1 p 1 61 ]
+[v vfprintf@fp fp `*.39S2559  1 p 2 61 ]
+[v vfprintf@fmt fmt `*.25DCuc  1 p 2 63 ]
+[v vfprintf@ap ap `*.4*.4v  1 p 1 65 ]
 "1840
 } 0
 "1177
 [v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
 {
-[u S2553 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
+[u S2583 . 4 `l 1 sint 4 0 `ul 1 uint 4 0 `d 1 f 4 0 ]
 "1188
-[v vfpfcnvrt@convarg convarg `S2553  1 a 4 50 ]
+[v vfpfcnvrt@convarg convarg `S2583  1 a 4 54 ]
 "1179
-[v vfpfcnvrt@cp cp `*.25uc  1 a 2 55 ]
+[v vfpfcnvrt@cp cp `*.25uc  1 a 2 59 ]
+[v vfpfcnvrt@c c `uc  1 a 1 58 ]
 "1180
-[v vfpfcnvrt@done done `a  1 a 1 54 ]
-[s S2529 _IO_FILE 0 ]
+[v vfpfcnvrt@done done `a  1 a 1 53 ]
+[s S2559 _IO_FILE 0 ]
 "1177
-[v vfpfcnvrt@fp fp `*.39S2529  1 p 2 41 ]
-[v vfpfcnvrt@fmt fmt `*.4*.25uc  1 p 1 43 ]
-[v vfpfcnvrt@ap ap `*.39*.4v  1 p 2 44 ]
+[v vfpfcnvrt@fp fp `*.39S2559  1 p 2 44 ]
+[v vfpfcnvrt@fmt fmt `*.4*.25uc  1 p 1 46 ]
+[v vfpfcnvrt@ap ap `*.39*.4v  1 p 2 47 ]
 "1814
 } 0
 "1055
 [v _xtoa xtoa `(v  1 s 1 xtoa ]
 {
 "1063
-[v xtoa@i i `i  1 a 2 37 ]
-[v xtoa@w w `i  1 a 2 34 ]
+[v xtoa@i i `i  1 a 2 42 ]
+[v xtoa@w w `i  1 a 2 39 ]
 "1059
-[v xtoa@c c `uc  1 a 1 36 ]
+[v xtoa@c c `uc  1 a 1 41 ]
 "1067
-[v xtoa@p p `a  1 a 1 33 ]
-[s S2529 _IO_FILE 0 ]
+[v xtoa@p p `a  1 a 1 38 ]
+[s S2559 _IO_FILE 0 ]
 "1055
-[v xtoa@fp fp `*.39S2529  1 p 2 28 ]
-[v xtoa@d d `ui  1 p 2 30 ]
+[v xtoa@fp fp `*.39S2559  1 p 2 28 ]
+[v xtoa@d d `ul  1 p 4 30 ]
 "1153
 } 0
 "1001
 [v _utoa utoa `(v  1 s 1 utoa ]
 {
 "1003
-[v utoa@i i `i  1 a 2 36 ]
-[v utoa@w w `i  1 a 2 34 ]
+[v utoa@i i `i  1 a 2 38 ]
+[v utoa@w w `i  1 a 2 36 ]
 "1007
-[v utoa@p p `a  1 a 1 33 ]
-[s S2529 _IO_FILE 0 ]
+[v utoa@p p `a  1 a 1 35 ]
+[s S2559 _IO_FILE 0 ]
 "1001
-[v utoa@fp fp `*.39S2529  1 p 2 28 ]
-[v utoa@d d `ui  1 p 2 30 ]
+[v utoa@fp fp `*.39S2559  1 p 2 28 ]
+[v utoa@d d `ul  1 p 4 30 ]
 "1047
 } 0
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\lwmod.c
-[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\llmod.c
+[v ___llmod __llmod `(ul  1 e 4 0 ]
 {
 "10
-[v ___lwmod@counter counter `uc  1 a 1 4 ]
+[v ___llmod@counter counter `uc  1 a 1 8 ]
 "5
-[v ___lwmod@divisor divisor `ui  1 p 2 0 ]
-[v ___lwmod@dividend dividend `ui  1 p 2 2 ]
+[v ___llmod@divisor divisor `ul  1 p 4 0 ]
+[v ___llmod@dividend dividend `ul  1 p 4 4 ]
 "25
 } 0
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\lwdiv.c
-[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\__lldiv.c
+[v ___lldiv __lldiv `(ul  1 e 4 0 ]
 {
 "10
-[v ___lwdiv@quotient quotient `ui  1 a 2 5 ]
+[v ___lldiv@quotient quotient `ul  1 a 4 8 ]
 "11
-[v ___lwdiv@counter counter `uc  1 a 1 4 ]
+[v ___lldiv@counter counter `uc  1 a 1 12 ]
 "5
-[v ___lwdiv@divisor divisor `ui  1 p 2 0 ]
-[v ___lwdiv@dividend dividend `ui  1 p 2 2 ]
+[v ___lldiv@divisor divisor `ul  1 p 4 0 ]
+[v ___lldiv@dividend dividend `ul  1 p 4 4 ]
 "30
 } 0
 "942 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\doprnt.c
@@ -1479,9 +1504,9 @@ NVM_ERROR 1
 [v stoa@w w `i  1 a 2 20 ]
 "945
 [v stoa@p p `i  1 a 2 18 ]
-[s S2529 _IO_FILE 0 ]
+[s S2559 _IO_FILE 0 ]
 "942
-[v stoa@fp fp `*.39S2529  1 p 2 12 ]
+[v stoa@fp fp `*.39S2559  1 p 2 12 ]
 [v stoa@s s `*.26uc  1 p 2 14 ]
 "997
 } 0
@@ -1511,16 +1536,16 @@ NVM_ERROR 1
 [v _dtoa dtoa `(v  1 s 1 dtoa ]
 {
 "516
-[v dtoa@i i `i  1 a 2 39 ]
-[v dtoa@w w `i  1 a 2 36 ]
+[v dtoa@i i `i  1 a 2 41 ]
+[v dtoa@w w `i  1 a 2 38 ]
 "515
-[v dtoa@s s `uc  1 a 1 38 ]
+[v dtoa@s s `uc  1 a 1 40 ]
 "520
-[v dtoa@p p `a  1 a 1 35 ]
-[s S2529 _IO_FILE 0 ]
+[v dtoa@p p `a  1 a 1 37 ]
+[s S2559 _IO_FILE 0 ]
 "513
-[v dtoa@fp fp `*.39S2529  1 p 2 28 ]
-[v dtoa@d d `i  1 p 2 30 ]
+[v dtoa@fp fp `*.39S2559  1 p 2 28 ]
+[v dtoa@d d `l  1 p 4 30 ]
 "583
 } 0
 "193
@@ -1528,9 +1553,9 @@ NVM_ERROR 1
 {
 "195
 [v pad@i i `i  1 a 2 26 ]
-[s S2529 _IO_FILE 0 ]
+[s S2559 _IO_FILE 0 ]
 "193
-[v pad@fp fp `*.39S2529  1 p 2 20 ]
+[v pad@fp fp `*.39S2559  1 p 2 20 ]
 [v pad@buf buf `*.6uc  1 p 1 22 ]
 [v pad@p p `i  1 p 2 23 ]
 "226
@@ -1544,18 +1569,18 @@ NVM_ERROR 1
 [v fputs@c c `uc  1 a 1 17 ]
 "8
 [v fputs@s s `*.6DCuc  1 p 1 12 ]
-[u S2494 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
-[s S2497 _IO_FILE 11 `S2494 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputs@fp fp `*.39S2497  1 p 2 13 ]
+[u S2524 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[s S2527 _IO_FILE 11 `S2524 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputs@fp fp `*.39S2527  1 p 2 13 ]
 "19
 } 0
 "8 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\nf_fputc.c
 [v _fputc fputc `(i  1 e 2 0 ]
 {
 [v fputc@c c `i  1 p 2 3 ]
-[u S2494 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
-[s S2497 _IO_FILE 11 `S2494 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputc@fp fp `*.39S2497  1 p 2 5 ]
+[u S2524 . 2 `*.39uc 1 buffer 2 0 `*.2DCuc 1 source 2 0 ]
+[s S2527 _IO_FILE 11 `S2524 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputc@fp fp `*.39S2527  1 p 2 5 ]
 "24
 } 0
 "378 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\uart\src\eusart.c
@@ -1586,62 +1611,62 @@ NVM_ERROR 1
 "1 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\abs.c
 [v _abs abs `(i  1 e 2 0 ]
 {
-[v abs@a a `i  1 p 2 6 ]
+[v abs@a a `i  1 p 2 10 ]
 "4
 } 0
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\awmod.c
-[v ___awmod __awmod `(i  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\almod.c
+[v ___almod __almod `(l  1 e 4 0 ]
 {
 "10
-[v ___awmod@sign sign `uc  1 a 1 5 ]
-[v ___awmod@counter counter `uc  1 a 1 4 ]
+[v ___almod@sign sign `uc  1 a 1 9 ]
+[v ___almod@counter counter `uc  1 a 1 8 ]
 "5
-[v ___awmod@divisor divisor `i  1 p 2 0 ]
-[v ___awmod@dividend dividend `i  1 p 2 2 ]
+[v ___almod@divisor divisor `l  1 p 4 0 ]
+[v ___almod@dividend dividend `l  1 p 4 4 ]
 "34
 } 0
-"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\awdiv.c
-[v ___awdiv __awdiv `(i  1 e 2 0 ]
+"5 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
 {
 "10
-[v ___awdiv@quotient quotient `i  1 a 2 6 ]
+[v ___aldiv@quotient quotient `l  1 a 4 10 ]
 "11
-[v ___awdiv@sign sign `uc  1 a 1 5 ]
-[v ___awdiv@counter counter `uc  1 a 1 4 ]
+[v ___aldiv@sign sign `uc  1 a 1 9 ]
+[v ___aldiv@counter counter `uc  1 a 1 8 ]
 "5
-[v ___awdiv@divisor divisor `i  1 p 2 0 ]
-[v ___awdiv@dividend dividend `i  1 p 2 2 ]
+[v ___aldiv@divisor divisor `l  1 p 4 0 ]
+[v ___aldiv@dividend dividend `l  1 p 4 4 ]
 "41
 } 0
 "3 c:\PROGRA~1\MICROC~1\xc8\v3.10\pic\sources\c99\common\memset.c
-[v _memset memset `(*.5v  1 e 2 0 ]
+[v _memset memset `(*.6v  1 e 2 0 ]
 {
 "5
-[v memset@p p `*.5uc  1 a 1 8 ]
+[v memset@p p `*.6uc  1 a 1 8 ]
 "3
-[v memset@dest dest `*.5v  1 p 1 3 ]
+[v memset@dest dest `*.6v  1 p 1 3 ]
 [v memset@c c `i  1 p 2 4 ]
 [v memset@n n `ui  1 p 2 6 ]
 "10
 } 0
-"121 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"149 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _SaveSettings SaveSettings `(v  1 e 1 0 ]
 {
-"138
-[v SaveSettings@ptr ptr `*.5uc  1 a 1 66 ]
-"133
+"166
+[v SaveSettings@ptr ptr `*.6uc  1 a 1 66 ]
+"161
 [v SaveSettings@data_byte data_byte `uc  1 a 1 67 ]
-"132
+"160
 [v SaveSettings@i i `i  1 a 2 70 ]
-"126
+"154
 [v SaveSettings@row_buf row_buf `[32]us  1 a 64 0 ]
-"124
+"152
 [v SaveSettings@bytes_written bytes_written `us  1 a 2 72 ]
-"123
+"151
 [v SaveSettings@current_addr current_addr `us  1 a 2 68 ]
-"122
+"150
 [v SaveSettings@total_bytes total_bytes `us  1 a 2 64 ]
-"157
+"185
 } 0
 "70 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\nvm\src\nvm.c
 [v _NVM_UnlockKeySet NVM_UnlockKeySet `(v  1 e 1 0 ]
@@ -1802,10 +1827,10 @@ NVM_ERROR 1
 {
 "132
 } 0
-"233 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
+"261 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\main.c
 [v _TMR2_Tick_Handler TMR2_Tick_Handler `(v  1 e 1 0 ]
 {
-"235
+"263
 } 0
 "346 C:\Users\tsq\MPLABProjects\Mini-PBX\config.mcc\mcc_generated_files\uart\src\eusart.c
 [v _EUSART_TransmitISR EUSART_TransmitISR `(v  1 e 1 0 ]

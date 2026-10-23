@@ -42,6 +42,10 @@ char* version_string = "1.4.0_MINI-PBX";
 // 接続されている回線数(最大値をデフォルト:後で上書き)
 uint8_t current_max_lines = 4;
 
+// Uptime計測
+volatile uint32_t    uptime_seconds;
+volatile uint16_t     uptime_cycles;
+
 // 各ポート毎の設定保持構造体 (Flash保存用・多桁ホットライン対応版)
 typedef struct {
     uint16_t extension;     // 内線番号 (例: 11～)
@@ -98,6 +102,30 @@ typedef struct {
 } LineContext;
 
 LineContext lines[TOTAL_MAX_LINES];
+
+// Uptime計算用
+typedef struct {
+    uint32_t days;
+    uint8_t  hours;
+    uint8_t  minutes;
+    uint8_t  seconds;
+} TimeComponents;
+
+TimeComponents convert_seconds(uint32_t total_seconds) {
+    TimeComponents result;
+
+    // 1日 = 86400秒、1時間 = 3600秒、1分 = 60秒
+    result.days    = total_seconds / 86400;     /* 総秒数を1日の秒数で割って日数を算出 */
+    uint32_t rem   = total_seconds % 86400;     /* 1日未満の余り秒数 */
+
+    result.hours   = (uint8_t)(rem / 3600);     /* 余り秒数から時間を算出 */
+    rem            = rem % 3600;                /* 1時間未満の余り秒数 */
+
+    result.minutes = (uint8_t)(rem / 60);       /* 余り秒数から分を算出 */
+    result.seconds = (uint8_t)(rem % 60);       /* 1分未満の余りが秒 */
+
+    return result;
+}
 
 // Configレジスタ読み出し
 uint16_t read_configuration_space(uint16_t address) {
@@ -257,6 +285,9 @@ int main(void)
     SYSTEM_Initialize();
     uint16_t device_id = read_configuration_space(0x8006);
     uint16_t revision_id = read_configuration_space(0x8007);
+
+    uptime_cycles = 0;
+    uptime_seconds = 0;
  
     INTERRUPT_GlobalInterruptEnable(); 
     INTERRUPT_PeripheralInterruptEnable(); 
@@ -336,6 +367,11 @@ int main(void)
         while (system_tick_count > 0) {
             system_tick_count--;
             PBX_SystemTick_1ms();
+            uptime_cycles++;
+            if(uptime_cycles >= 1000){
+                uptime_seconds++;
+                uptime_cycles = 0;
+            }
         }
 
         for(uint8_t i = 0; i < current_max_lines; i++){
@@ -557,14 +593,8 @@ void ProcessStateMachine(uint8_t ch) {
                         printf("Port %d: Sending CID to Port %d (CID: %s)\r\n", ch + 1, target_ch + 1, cid_string);
                         // UART 掃き出し待ち
                         __delay_ms(100);
-                        // CID送出。モデムタイミング維持のため割り込みブロック
-                        // ここで割り込みが全てブロックされるのでこのコアは多回線処理には向かない
-                        INTERRUPT_GlobalInterruptDisable(); 
-                        INTERRUPT_PeripheralInterruptDisable();
+                        // CID送出。モデムタイミング維持のブロック(割り込み禁止)は内部で行われるので注意
                         Send_NTT_CallerID(target_ch, cid_string);
-                        // 送出完了後は割り込み復旧
-                        INTERRUPT_GlobalInterruptEnable(); 
-                        INTERRUPT_PeripheralInterruptEnable();
                     }
 
                     HAL_SetTone(ch, TONE_RINGBACK);
@@ -679,6 +709,9 @@ void ProcessCommandLine(const char* str){
     printf("\r\n");
     if (strcmp(str, "STAT") == 0) {
         printf("** MINI-PBX Core Ver. %s\r\n",version_string);
+        TimeComponents uptime;
+        uptime = convert_seconds(uptime_seconds);
+        printf(" Uptime %lu d %d h %d m %d s\r\n",uptime.days, uptime.hours, uptime.minutes, uptime.seconds);
         printf("--- Line Status -------\r\n");
         for (uint8_t i = 0; i < current_max_lines; i++) {
             printf("Port %d [Ext:%u] (SLIC) : %-8s", 
